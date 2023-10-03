@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -7,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatBubbleOvalLeftIcon, HeartIcon } from '@heroicons/react/24/outline';
 
 interface Props {}
@@ -43,6 +45,32 @@ const Post = ({}: Props) => {
           <HeartIcon className="h-6 w-6" />
         </Button>
       </CardFooter>
+      <ScrollArea className="h-52 px-4 pb-4">
+        <div className=" divide-y">
+          {[...Array(20)].map((_, index) => (
+            <div
+              key={index}
+              className="py-4 flex gap-3"
+            >
+              <Avatar>
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <div>
+                <span className="text-lg font-semibold">Kratos</span>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
+                  qui nulla voluptatem consectetur molestias architecto dolorum
+                  maiores magni sed placeat.
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
     </Card>
   );
 };
