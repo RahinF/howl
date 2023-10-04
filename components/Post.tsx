@@ -16,9 +16,6 @@ import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import TimeAgo from 'react-timeago';
 
-import { motion } from 'framer-motion';
-import { ScrollArea } from './ui/scroll-area';
-
 interface Props {}
 
 const Post = ({}: Props) => {
@@ -27,7 +24,7 @@ const Post = ({}: Props) => {
   const toggleComments = () => {
     setShowComments((prev) => !prev);
   };
-  const MotionScrollArea = motion(ScrollArea);
+
   return (
     <Card>
       <CardHeader className="flex-row gap-3 space-y-0">

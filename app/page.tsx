@@ -1,3 +1,4 @@
+import MessageBox from '@/components/MessageBox';
 import Post from '@/components/Post';
 
 export default function Home() {
@@ -5,7 +6,7 @@ export default function Home() {
     <main className="max-w-screen-xl min-h-screen m-auto border">
       <h1>Home</h1>
 
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-4">
         <div>
           <h1>menu</h1>
           <ul>
@@ -16,9 +17,9 @@ export default function Home() {
             <li>item</li>
           </ul>
         </div>
-        <div className="p-4">
-          <h1>feed</h1>
-          <div>message box</div>
+        <div className="flex flex-col gap-4 p-4">
+          <MessageBox />
+          <Post />
           <Post />
         </div>
         <div>
