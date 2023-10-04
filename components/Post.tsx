@@ -1,3 +1,6 @@
+'use client';
+
+import Comments from '@/components/Comments';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -8,20 +11,44 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatBubbleOvalLeftIcon, HeartIcon } from '@heroicons/react/24/outline';
+import { AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import TimeAgo from 'react-timeago';
+
+import { motion } from 'framer-motion';
+import { ScrollArea } from './ui/scroll-area';
 
 interface Props {}
 
 const Post = ({}: Props) => {
+  const [showComments, setShowComments] = useState<boolean>(false);
+
+  const toggleComments = () => {
+    setShowComments((prev) => !prev);
+  };
+  const MotionScrollArea = motion(ScrollArea);
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Title</CardTitle>
-        <CardDescription>Description</CardDescription>
+      <CardHeader className="flex-row gap-3 space-y-0">
+        <Avatar>
+          <AvatarImage
+            src="https://github.com/shadcn.png"
+            alt="@shadcn"
+          />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <div>
+          <CardTitle>Kratos</CardTitle>
+          <CardDescription>
+            <TimeAgo date="Aug 29, 2023" />
+          </CardDescription>
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="bg-red-50 h-40 grid place-items-center">image</div>
+        <div className="bg-red-50 h-40 grid place-items-center rounded-lg">
+          image
+        </div>
         <p className="leading-7 [&:not(:first-child)]:mt-6">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non vitae
           velit nostrum architecto rerum iste voluptates sit quis perspiciatis
@@ -33,6 +60,7 @@ const Post = ({}: Props) => {
           variant="outline"
           size="icon"
           className="rounded-full border-none"
+          onClick={toggleComments}
         >
           <ChatBubbleOvalLeftIcon className="h-6 w-6" />
         </Button>
@@ -45,32 +73,12 @@ const Post = ({}: Props) => {
           <HeartIcon className="h-6 w-6" />
         </Button>
       </CardFooter>
-      <ScrollArea className="h-52 px-4 pb-4">
-        <div className=" divide-y">
-          {[...Array(20)].map((_, index) => (
-            <div
-              key={index}
-              className="py-4 flex gap-3"
-            >
-              <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div>
-                <span className="text-lg font-semibold">Kratos</span>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-                  qui nulla voluptatem consectetur molestias architecto dolorum
-                  maiores magni sed placeat.
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </ScrollArea>
+      <AnimatePresence
+        initial={false}
+        mode="wait"
+      >
+        {showComments && <Comments />}
+      </AnimatePresence>
     </Card>
   );
 };

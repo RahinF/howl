@@ -2,7 +2,7 @@ import Post from '@/components/Post';
 
 export default function Home() {
   return (
-    <main className="max-w-screen-xl m-auto border">
+    <main className="max-w-screen-xl min-h-screen m-auto border">
       <h1>Home</h1>
 
       <div className="grid grid-cols-3">
