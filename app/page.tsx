@@ -1,13 +1,14 @@
 import MessageBox from '@/components/MessageBox';
 import Post from '@/components/Post';
+import RecentActivity from '@/components/RecentActivity';
 
 export default function Home() {
   return (
-    <main className="max-w-screen-xl min-h-screen m-auto border">
+    <main className="max-w-screen-xl min-h-screen m-auto py-4">
       <h1>Home</h1>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-3">
           <h1>menu</h1>
           <ul>
             <li>item</li>
@@ -17,15 +18,13 @@ export default function Home() {
             <li>item</li>
           </ul>
         </div>
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4 px-4 col-span-5">
           <MessageBox />
           <Post />
           <Post />
         </div>
-        <div>
-          <h1>widgets</h1>
-          <div>user control</div>
-          <div>recent</div>
+        <div className="col-span-4">
+          <RecentActivity />
         </div>
       </div>
     </main>
