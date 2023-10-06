@@ -1,7 +1,36 @@
-import { PhotoIcon } from '@heroicons/react/24/outline';
+import {
+  ArrowTrendingUpIcon,
+  HomeIcon,
+  MusicalNoteIcon,
+  NewspaperIcon,
+  PuzzlePieceIcon,
+  TrophyIcon,
+  UsersIcon,
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react';
 
 interface Props {}
+
+interface Link {
+  icon: ForwardRefExoticComponent<
+    Omit<SVGProps<SVGSVGElement>, 'ref'> & {
+      title?: string | undefined;
+      titleId?: string | undefined;
+    } & RefAttributes<SVGSVGElement>
+  >;
+  href: string;
+  label: string;
+}
+const links: Link[] = [
+  { icon: HomeIcon, href: '/', label: 'Home' },
+  { icon: ArrowTrendingUpIcon, href: '/', label: 'Trending' },
+  { icon: UsersIcon, href: '/', label: 'Following' },
+  { icon: MusicalNoteIcon, href: '/', label: 'Music' },
+  { icon: PuzzlePieceIcon, href: '/', label: 'Gaming' },
+  { icon: NewspaperIcon, href: '/', label: 'News' },
+  { icon: TrophyIcon, href: '/', label: 'Sports' },
+];
 
 const Nav = ({}: Props) => {
   return (
@@ -9,15 +38,15 @@ const Nav = ({}: Props) => {
       <span className="w-full">
         <div className="h-[50vh] gradient overflow-y-scroll hide-scrollbar">
           <div className="flex flex-col gap-4 backdrop-blur-3xl">
-            {[...Array(100)].map((_, index) => (
+            {links.map((link, index) => (
               <Link
                 key={index}
-                href="/"
-                className="flex gap-3 items-center p-4"
+                href={link.href}
+                className="flex gap-6 items-center p-4 group"
               >
-                <PhotoIcon className="h-8 w-8 text-muted-foreground" />
-                <span className="uppercase text-muted-foreground tracking-widest text-sm font-semibold hidden sm:block">
-                  item {index + 1}
+                <link.icon className="h-8 w-8 text-muted-foreground group-hover:text-white transition duration-300" />
+                <span className="uppercase text-muted-foreground tracking-widest text-sm font-semibold hidden sm:block group-hover:text-white transition duration-300">
+                  {link.label}
                 </span>
               </Link>
             ))}
