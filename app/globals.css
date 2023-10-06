@@ -74,3 +74,40 @@
     @apply bg-background text-foreground;
   }
 }
+
+.gradient {
+  background: radial-gradient(
+      circle at right 45%,
+      rgba(68, 21, 179, 0.6) 0%,
+      rgba(20, 22, 39, 0) 35%,
+      rgba(20, 22, 39, 0) 100%
+    ),
+    radial-gradient(
+      circle at right 55%,
+      rgba(255, 0, 128, 0.6) 0%,
+      rgba(20, 22, 39, 0) 35%,
+      rgba(20, 22, 39, 0) 100%
+    );
+}
+
+nav::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 1px;
+  background: radial-gradient(
+    circle,
+    rgb(136, 135, 136) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
