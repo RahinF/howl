@@ -35,12 +35,14 @@ const variants: Variants = {
   },
 };
 
-interface Props {}
+interface Props {
+  animationKey: boolean;
+}
 
-const Comments = ({}: Props) => {
+const Comments = ({ animationKey }: Props) => {
   return (
     <motion.div
-      key={Math.random()}
+      key={animationKey.toString()}
       variants={variants}
       initial="initial"
       animate="animate"
@@ -61,15 +63,15 @@ const Comments = ({}: Props) => {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div>
-                <div className="flex gap-1 items-center">
-                  <span className="text-lg font-semibold">Kratos</span>
-                  <span className="font-bold">·</span>
+                <div className="flex gap-2 items-center">
+                  <span className="text-white font-semibold">Kratos</span>
+                  <span className="font-black text-muted-foreground">·</span>
                   <TimeAgo
                     className="text-sm text-muted-foreground"
                     date="Aug 29, 2023"
                   />
                 </div>
-                <p>
+                <p className="text-white">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
                   qui nulla voluptatem consectetur molestias architecto dolorum
                   maiores magni sed placeat.

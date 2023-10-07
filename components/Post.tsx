@@ -11,22 +11,28 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ChatBubbleOvalLeftIcon, HeartIcon } from '@heroicons/react/24/outline';
+import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import TimeAgo from 'react-timeago';
+import LikeButton from './LikeButton';
 
 interface Props {}
 
 const Post = ({}: Props) => {
-  const [showComments, setShowComments] = useState<boolean>(false);
+  const [showComments, setShowComments] = useState<boolean>(true);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
   };
 
+  const toggleLiked = () => {
+    setIsLiked((prev) => !prev);
+  };
+
   return (
-    <Card>
+    <Card className="bg-[#1C1F36] border-none">
       <CardHeader className="flex-row gap-3 space-y-0">
         <Avatar>
           <AvatarImage
@@ -35,8 +41,9 @@ const Post = ({}: Props) => {
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <div>
-          <CardTitle>Kratos</CardTitle>
+        <div className="flex items-center gap-2">
+          <CardTitle className="text-white text-base">Kratos</CardTitle>
+          <span className="text-muted-foreground font-black">·</span>
           <CardDescription>
             <TimeAgo date="Aug 29, 2023" />
           </CardDescription>
@@ -46,13 +53,13 @@ const Post = ({}: Props) => {
         <div className="bg-red-50 h-40 grid place-items-center rounded-lg">
           image
         </div>
-        <p className="leading-7 [&:not(:first-child)]:mt-6">
+        <p className="leading-7 [&:not(:first-child)]:mt-6 text-white">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non vitae
           velit nostrum architecto rerum iste voluptates sit quis perspiciatis
           tenetur.
         </p>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="gap-3">
         <Button
           variant="outline"
           size="icon"
@@ -62,19 +69,16 @@ const Post = ({}: Props) => {
           <ChatBubbleOvalLeftIcon className="h-6 w-6" />
         </Button>
 
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full border-none"
-        >
-          <HeartIcon className="h-6 w-6" />
-        </Button>
+        <LikeButton
+          isLiked={isLiked}
+          toggleLiked={toggleLiked}
+        />
       </CardFooter>
       <AnimatePresence
         initial={false}
         mode="wait"
       >
-        {showComments && <Comments />}
+        {showComments && <Comments animationKey={showComments} />}
       </AnimatePresence>
     </Card>
   );
