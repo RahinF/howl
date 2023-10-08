@@ -18,7 +18,7 @@ const MessageBox = ({}: Props) => {
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex justify-between gap-3">
+      <CardContent className="flex justify-between gap-3 items-center">
         <Avatar>
           <AvatarImage
             src="https://github.com/shadcn.png"
@@ -26,22 +26,21 @@ const MessageBox = ({}: Props) => {
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <div className="flex-1 flex gap-3">
-          <Input
-            placeholder="Type your message here."
-            className="border-none bg-[#282D4A]"
-          />
-          <label htmlFor="file">
-            <IconButton>
-              <PhotoIcon className="h-6 w-6 text-white" />
-            </IconButton>
-          </label>
-          <input
-            id="file"
-            type="file"
-            className="hidden"
-          />
-        </div>
+
+        <Input
+          placeholder="Type your message here."
+          className="border-none bg-[#282D4A] text-white"
+        />
+        <label htmlFor="file">
+          <IconButton>
+            <PhotoIcon className="h-6 w-6 text-white" />
+          </IconButton>
+        </label>
+        <input
+          id="file"
+          type="file"
+          className="hidden"
+        />
       </CardContent>
     </CardBase>
   );

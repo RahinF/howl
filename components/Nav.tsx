@@ -35,8 +35,10 @@ const links: Link[] = [
 const Nav = ({}: Props) => {
   return (
     <nav className="sticky top-0 h-[70vh] xl:w-[308px] flex items-center">
-      <span className="w-full">
-        <div className="h-[50vh] gradient overflow-y-scroll hide-scrollbar">
+      <span className="w-full relative">
+        <div className="gradient1 w-full h-full absolute top-0 left-0" />
+        <div className="gradient2 w-full h-full absolute top-0 left-0" />
+        <div className="h-[50vh] overflow-y-scroll hide-scrollbar">
           <div className="flex flex-col gap-4 backdrop-blur-3xl">
             {links.map((link, index) => (
               <Link
