@@ -1,7 +1,5 @@
-import MessageBox from '@/components/MessageBox';
 import Nav from '@/components/Nav';
-import Post from '@/components/Post';
-import RecentActivity from '@/components/RecentActivity';
+import Posts from '@/components/Posts';
 
 export default function Home() {
   return (
@@ -10,14 +8,19 @@ export default function Home() {
         <div className="col-span-3 h-screen fixed flex items-center">
           <Nav />
         </div>
-        <div className="flex flex-col gap-4 px-4 col-span-5 col-start-4 pt-4">
+        <div className="col-start-4 col-span-full">
+          <Posts />
+        </div>
+
+        {/* <div className="flex flex-col gap-4 px-4 col-span-5 col-start-4 pt-4">
           <MessageBox />
+          <Posts/>
           <Post />
           <Post />
         </div>
         <div className="col-span-4 pt-4">
           <RecentActivity />
-        </div>
+        </div> */}
       </div>
     </main>
   );
