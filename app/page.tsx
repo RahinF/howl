@@ -1,5 +1,8 @@
+'use client';
+
+import { CardProvider } from '@/context/CardContext';
+import Layout from '@/components/Layout';
 import Nav from '@/components/Nav';
-import Posts from '@/components/Posts';
 
 export default function Home() {
   return (
@@ -9,18 +12,10 @@ export default function Home() {
           <Nav />
         </div>
         <div className="col-start-4 col-span-full">
-          <Posts />
+          <CardProvider>
+            <Layout />
+          </CardProvider>
         </div>
-
-        {/* <div className="flex flex-col gap-4 px-4 col-span-5 col-start-4 pt-4">
-          <MessageBox />
-          <Posts/>
-          <Post />
-          <Post />
-        </div>
-        <div className="col-span-4 pt-4">
-          <RecentActivity />
-        </div> */}
       </div>
     </main>
   );

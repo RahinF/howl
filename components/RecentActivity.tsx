@@ -1,11 +1,10 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import CardBase from '@/components/CardBase';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import ReactTimeago from 'react-timeago';
 
-interface Props {
-  addToRefs: (element: HTMLDivElement) => void;
-}
+interface Props {}
 
 const activity: { title: string; date: Date }[] = [
   {
@@ -22,36 +21,31 @@ const activity: { title: string; date: Date }[] = [
   },
 ];
 
-const RecentActivity = ({ addToRefs }: Props) => {
+const RecentActivity = ({}: Props) => {
   return (
-    <Card
-      className="card"
-      ref={addToRefs}
-    >
-      <div className="card-content">
-        <CardHeader>
-          <CardTitle className="text-white">Recent Activity</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {activity.map(({ title, date }, index) => (
-            <div
-              key={index}
-              className="mb-4 flex gap-4 pb-4 last:mb-0 last:pb-0"
-            >
-              <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-              <div className="space-y-1">
-                <p className="text-sm font-medium leading-none text-white">
-                  {title}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  <ReactTimeago date={date} />
-                </p>
-              </div>
+    <CardBase>
+      <CardHeader>
+        <CardTitle className="text-white text-lg">Recent Activity</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {activity.map(({ title, date }, index) => (
+          <div
+            key={index}
+            className="mb-4 flex gap-4 pb-4 last:mb-0 last:pb-0"
+          >
+            <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+            <div className="space-y-1">
+              <p className="text-sm font-medium leading-none text-white">
+                {title}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                <ReactTimeago date={date} />
+              </p>
             </div>
-          ))}
-        </CardContent>
-      </div>
-    </Card>
+          </div>
+        ))}
+      </CardContent>
+    </CardBase>
   );
 };
 
