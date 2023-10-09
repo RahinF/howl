@@ -42,7 +42,7 @@ const IconButton = ({
       variant="outline"
       size="icon"
       className={cn(
-        'rounded-full h-12 duration-500 w-12 border-none bg-[#282D4A] hover:bg-[#141627]',
+        'shrink-0 rounded-full h-12 duration-500 w-12 border-none bg-[#282D4A] hover:bg-[#141627]',
         className,
       )}
       variants={buttonVariants}
