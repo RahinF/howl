@@ -7,6 +7,8 @@ interface Props {
   children: ReactNode;
   className?: string;
   onClick?: () => void;
+  ariaExpanded?: boolean;
+  ariaLabel?: string;
 }
 const MotionButton = motion(Button);
 
@@ -28,7 +30,13 @@ const buttonVariants: Variants = {
   },
 };
 
-const IconButton = ({ children, className, onClick }: Props) => {
+const IconButton = ({
+  children,
+  className,
+  onClick,
+  ariaExpanded,
+  ariaLabel,
+}: Props) => {
   return (
     <MotionButton
       variant="outline"
@@ -40,6 +48,8 @@ const IconButton = ({ children, className, onClick }: Props) => {
       variants={buttonVariants}
       whileHover="whileHover"
       onClick={onClick}
+      aria-expanded={ariaExpanded}
+      aria-label={ariaLabel}
     >
       {children}
     </MotionButton>

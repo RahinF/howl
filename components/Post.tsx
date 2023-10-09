@@ -62,7 +62,11 @@ const Post = ({}: Props) => {
         </p>
       </CardContent>
       <CardFooter className="gap-3">
-        <IconButton onClick={toggleComments}>
+        <IconButton
+          onClick={toggleComments}
+          ariaExpanded={showComments}
+          ariaLabel={`${showComments ? 'hide' : 'show'} comments`}
+        >
           <ChatBubbleOvalLeftIcon className="h-6 w-6 text-white" />
         </IconButton>
 
