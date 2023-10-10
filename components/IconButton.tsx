@@ -1,15 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Variants, motion } from 'framer-motion';
-import { ReactNode } from 'react';
 
-interface Props {
-  children: ReactNode;
-  className?: string;
-  onClick?: () => void;
-  ariaExpanded?: boolean;
-  ariaLabel?: string;
-}
 const MotionButton = motion(Button);
 
 const buttonVariants: Variants = {
@@ -33,12 +25,12 @@ const buttonVariants: Variants = {
 const IconButton = ({
   children,
   className,
-  onClick,
-  ariaExpanded,
-  ariaLabel,
-}: Props) => {
+  type = 'button',
+  ...props
+}: any) => {
   return (
     <MotionButton
+      {...props}
       variant="outline"
       size="icon"
       className={cn(
@@ -47,9 +39,7 @@ const IconButton = ({
       )}
       variants={buttonVariants}
       whileHover="whileHover"
-      onClick={onClick}
-      aria-expanded={ariaExpanded}
-      aria-label={ariaLabel}
+      type={type}
     >
       {children}
     </MotionButton>
@@ -57,3 +47,5 @@ const IconButton = ({
 };
 
 export default IconButton;
+
+

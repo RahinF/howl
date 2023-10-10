@@ -64,10 +64,14 @@ const Post = ({}: Props) => {
       <CardFooter className="gap-3">
         <IconButton
           onClick={toggleComments}
-          ariaExpanded={showComments}
-          ariaLabel={`${showComments ? 'hide' : 'show'} comments`}
+          aria-expanded={showComments}
+          aria-label={`${showComments ? 'hide' : 'show'} comments`}
         >
-          <ChatBubbleOvalLeftIcon className="h-6 w-6 text-white" />
+          <ChatBubbleOvalLeftIcon
+            className="h-6 w-6 text-white"
+            aria-hidden
+            focusable="false"
+          />
         </IconButton>
 
         <LikeButton
