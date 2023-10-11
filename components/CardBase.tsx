@@ -1,12 +1,14 @@
 import { Card } from '@/components/ui/card';
 import useCard from '@/hooks/useCard';
+import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
 
 interface Props {
+  className?: string;
   children: ReactNode;
 }
 
-const CardBase = ({ children }: Props) => {
+const CardBase = ({ className, children }: Props) => {
   const { addToRefs } = useCard();
 
   return (
@@ -14,7 +16,7 @@ const CardBase = ({ children }: Props) => {
       className="card"
       ref={addToRefs}
     >
-      <div className="card-content">{children}</div>
+      <div className={cn('card-content', className)}>{children}</div>
     </Card>
   );
 };

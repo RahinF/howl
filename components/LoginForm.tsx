@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-interface Props {}
+
 
 import { Button } from '@/components/ui/button';
 import {
@@ -25,22 +25,25 @@ import * as z from 'zod';
 import CardBaseContainer from './CardBaseContainer';
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
+  email: z.string().min(1, { message: 'Email is required.' }).email({
+    message:
+      'Please provide an email in the correct format e.g. john.doe@gmail.com',
   }),
-  password: z.string().min(8, {
-    message: 'Password must be at least 8 characters.',
-  }),
+  password: z.string().min(1, { message: 'Password is required.' }),
 });
 
-const LoginForm = ({}: Props) => {
+interface Props {
+  login: () => void;
+}
+
+const LoginForm = ({ login }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    // await login(values.email, values.password)
+
     console.log(values);
   }
 
@@ -51,19 +54,19 @@ const LoginForm = ({}: Props) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="max-w-md w-full"
         >
-          <CardBase>
+          <CardBase className='py-10'>
             <CardHeader>
               <CardTitle className="text-white">Login</CardTitle>
               <CardDescription>Lorem ipsum dolor sit amet.</CardDescription>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className='flex flex-col gap-4'>
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-white">Username</FormLabel>
+                    <FormLabel className="text-white">Email</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
@@ -71,9 +74,7 @@ const LoginForm = ({}: Props) => {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
+                    
                     <FormMessage />
                   </FormItem>
                 )}
@@ -91,14 +92,12 @@ const LoginForm = ({}: Props) => {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
+                   
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit">Login</Button>
             </CardContent>
           </CardBase>
         </form>
