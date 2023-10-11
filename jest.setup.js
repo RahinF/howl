@@ -1,4 +1,4 @@
-import { server } from '@/app/mocks/server'
+import { server } from '@/mocks/server'
 import '@testing-library/jest-dom'
 import 'whatwg-fetch'
 

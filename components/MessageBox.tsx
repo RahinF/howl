@@ -2,24 +2,22 @@
 
 import CardBase from '@/components/CardBase';
 import IconButton from '@/components/IconButton';
-import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { PhotoIcon } from '@heroicons/react/24/outline';
-import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
-import { ChangeEvent, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { CardContent } from '@/components/ui/card';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { PhotoIcon } from '@heroicons/react/24/outline';
+import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ChangeEvent, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 const formSchema = z.object({
   comment: z.string().min(1).max(250),
@@ -38,6 +36,7 @@ const MessageBox = ({}: Props) => {
     },
   });
 
+  const commentLength = !!!form.getValues('comment').length;
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -62,58 +61,11 @@ const MessageBox = ({}: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <CardBase>
-          <CardHeader className="pb-2">
-            <CardTitle className="mb-4 text-white text-lg">
-              Tell the world what&apos;s happening!
-            </CardTitle>
-          </CardHeader>
-
-          <FormField
-            control={form.control}
-            name="comment"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Type your message here."
-                    className="border-none bg-[#282D4A] text-white"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="file"
-            render={({ field: { value, onChange, ...field } }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    id="file"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    {...field}
-                    ref={inputFileRef}
-                    onChange={(event) => {
-                      onFileChange(event, onChange);
-                    }}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <CardContent className="flex justify-between gap-3 items-center">
-            <IconButton onClick={fileSelectOnClick}>
+          <CardContent className="flex justify-between gap-3 items-center pt-16">
+            <IconButton
+              onClick={fileSelectOnClick}
+              aria-label="select file"
+            >
               <PhotoIcon
                 className="h-6 w-6 text-white"
                 aria-hidden
@@ -121,7 +73,54 @@ const MessageBox = ({}: Props) => {
               />
             </IconButton>
 
-            <IconButton type="submit">
+            <FormField
+              control={form.control}
+              name="comment"
+              render={({ field }) => (
+                <FormItem className="flex-1 flex flex-col items-center space-y-0 relative">
+                  <FormLabel className="absolute -top-10 left-0 font-semibold tracking-tight text-white text-lg">
+                    What&apos;s going on?
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Type your message here."
+                      className="border-none bg-[#282D4A] text-white"
+                      autoComplete="off"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="file"
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormItem className="hidden">
+                  <FormControl>
+                    <Input
+                      id="file"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      {...field}
+                      ref={inputFileRef}
+                      onChange={(event) => {
+                        onFileChange(event, onChange);
+                      }}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <IconButton
+              type="submit"
+              aria-label="create post"
+              disabled={commentLength}
+            >
               <PaperAirplaneIcon
                 className="h-6 w-6 text-white"
                 aria-hidden
