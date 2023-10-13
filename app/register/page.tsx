@@ -1,15 +1,15 @@
 'use client';
 
-import LoginForm from '@/components/LoginForm';
+import RegisterForm from '@/components/RegisterForm';
 import { CardProvider } from '@/context/CardContext';
 
-export default function Login() {
-  const login = () => {};
+export default function Register() {
+  const register = () => {};
 
   return (
     <main className="max-w-screen-xl min-h-screen m-auto">
       <CardProvider>
-        <LoginForm login={login} />
+        <RegisterForm register={register} />
       </CardProvider>
     </main>
   );

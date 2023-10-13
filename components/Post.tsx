@@ -32,28 +32,30 @@ const Post = ({}: Props) => {
   };
 
   return (
-    <CardBase>
-      <CardHeader className="flex-row gap-3 space-y-0">
-        <Avatar>
+    <CardBase className='p-4'>
+      <CardHeader className="flex-row gap-6 items-center space-y-0">
+        <Avatar className="h-16 w-16">
           <AvatarImage
             src="https://github.com/shadcn.png"
             alt="@shadcn"
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col items-start gap-1.5">
           <CardTitle className="text-white text-base">Kratos</CardTitle>
-          <span className="text-muted-foreground font-black">·</span>
+          {/* <span className="text-muted-foreground font-black">·</span> */}
           <CardDescription>
             <TimeAgo date="Aug 29, 2023" />
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="bg-[#282D4A] h-40 grid place-items-center rounded-lg">
-          <p className="text-white tracking-widest uppercase text-sm text-muted-foreground">
-            image
-          </p>
+        <div className="rounded-lg">
+          <img
+            src="https://images.pexels.com/photos/1618606/pexels-photo-1618606.jpeg"
+            alt="turtle"
+            className="rounded-[inherit]"
+          />
         </div>
         <p className="leading-7 [&:not(:first-child)]:mt-6 text-white">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non vitae

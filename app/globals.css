@@ -144,29 +144,31 @@ nav::after {
 }
 
 .card {
-  @apply relative border-none flex items-center justify-center bg-black/10 group-hover:after:opacity-100;
-  @apply after:absolute after:pointer-events-none after:left-0 after:top-0 after:z-[1] after:h-full after:w-full after:rounded-lg after:opacity-0 after:transition-opacity after:duration-500 after:content-[''];
-  @apply before:absolute before:pointer-events-none before:left-0 before:top-0 before:z-[3] before:h-full before:w-full before:rounded-lg before:opacity-0 before:transition-opacity before:duration-500 before:content-[''] before:hover:opacity-100;
-}
-
-.card-content {
-  @apply relative m-px z-[2] flex grow flex-col justify-center gap-4 rounded-lg bg-[#1C1F36];
+  @apply relative border-none flex items-center justify-center bg-black/10 group-hover:before:opacity-100;
+  @apply before:absolute before:pointer-events-none before:left-0 before:top-0 before:z-[1] before:h-full before:w-full before:rounded-lg before:opacity-0 before:transition-opacity before:duration-500 before:content-[''];
+  @apply after:absolute after:pointer-events-none after:left-0 after:top-0 after:z-[3] after:h-full after:w-full after:rounded-lg after:opacity-0 after:transition-opacity after:duration-500 after:content-[''] after:hover:opacity-100;
 }
 
 .card::before {
   background: radial-gradient(
-    1000px circle at var(--mouse-x) var(--mouse-y),
-    rgba(255, 0, 128, 0.07) 0%,
-    rgba(20, 22, 39, 0) 50%,
-    rgba(20, 22, 39, 0) 100%,
+    600px circle at var(--mouse-x) var(--mouse-y),
+    rgb(136, 135, 136),
     transparent 40%
   );
 }
 
 .card::after {
   background: radial-gradient(
-    600px circle at var(--mouse-x) var(--mouse-y),
-    rgb(136, 135, 136),
+    1000px circle at var(--mouse-x) var(--mouse-y),
+    rgba(255, 0, 128, 0.06) 0%,
+    rgba(20, 22, 39, 0) 50%,
+    rgba(20, 22, 39, 0) 100%,
     transparent 40%
   );
+}
+
+
+
+.card-content {
+  @apply relative m-px z-[2] flex grow flex-col justify-center gap-4 rounded-lg bg-[#1C1F36];
 }
