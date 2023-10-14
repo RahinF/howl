@@ -16,6 +16,8 @@ import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import TimeAgo from 'react-timeago';
+import ReplyButton from './ReplyButton';
+import Tooltip from './Tooltip';
 
 interface Props {}
 
@@ -32,7 +34,7 @@ const Post = ({}: Props) => {
   };
 
   return (
-    <CardBase className='p-4'>
+    <CardBase className="p-4">
       <CardHeader className="flex-row gap-6 items-center space-y-0">
         <Avatar className="h-16 w-16">
           <AvatarImage
@@ -63,23 +65,31 @@ const Post = ({}: Props) => {
           tenetur.
         </p>
       </CardContent>
-      <CardFooter className="gap-3">
-        <IconButton
-          onClick={toggleComments}
-          aria-expanded={showComments}
-          aria-label={`${showComments ? 'hide' : 'show'} comments`}
-        >
-          <ChatBubbleOvalLeftIcon
-            className="h-6 w-6 text-white"
-            aria-hidden
-            focusable="false"
-          />
-        </IconButton>
+      <CardFooter className="justify-between">
+        <div className="flex gap-4">
+          <Tooltip label={`${showComments ? 'Hide' : 'Show'} comments`}>
+            <IconButton
+              onClick={toggleComments}
+              aria-expanded={showComments}
+              aria-label={`${showComments ? 'hide' : 'show'} comments`}
+            >
+              <ChatBubbleOvalLeftIcon
+                className="h-6 w-6 text-white"
+                aria-hidden
+                focusable="false"
+              />
+            </IconButton>
+          </Tooltip>
 
-        <LikeButton
-          isLiked={isLiked}
-          toggleLiked={toggleLiked}
-        />
+          <LikeButton
+            isLiked={isLiked}
+            toggleLiked={toggleLiked}
+          />
+        </div>
+
+        <div>
+          <ReplyButton />
+        </div>
       </CardFooter>
       <AnimatePresence
         initial={false}

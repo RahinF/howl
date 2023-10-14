@@ -3,6 +3,7 @@ import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import IconButton from './IconButton';
+import Tooltip from './Tooltip';
 
 interface Props {
   isLiked: boolean;
@@ -66,35 +67,37 @@ const LikeButton = ({ isLiked, toggleLiked }: Props) => {
   }, [isDisabled]);
 
   return (
-    <IconButton
-      className="disabled:opacity-100"
-      onClick={onClick}
-    >
-      <AnimatePresence
-        initial={false}
-        mode="wait"
+    <Tooltip label={isLiked ? 'Unike' : 'Like'}>
+      <IconButton
+        className="disabled:opacity-100"
+        onClick={onClick}
       >
-        {isLiked ? (
-          <MotionHeartIconSolid
-            key={isLiked.toString()}
-            className="h-6 w-6 text-red-400"
-            variants={iconVariants.liked}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          />
-        ) : (
-          <MotionHeartIconOutline
-            key={isLiked.toString()}
-            className="h-6 w-6 text-white"
-            variants={iconVariants.unliked}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          />
-        )}
-      </AnimatePresence>
-    </IconButton>
+        <AnimatePresence
+          initial={false}
+          mode="wait"
+        >
+          {isLiked ? (
+            <MotionHeartIconSolid
+              key={isLiked.toString()}
+              className="h-6 w-6 text-red-400"
+              variants={iconVariants.liked}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            />
+          ) : (
+            <MotionHeartIconOutline
+              key={isLiked.toString()}
+              className="h-6 w-6 text-white"
+              variants={iconVariants.unliked}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            />
+          )}
+        </AnimatePresence>
+      </IconButton>
+    </Tooltip>
   );
 };
 
