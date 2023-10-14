@@ -1,5 +1,6 @@
 'use client';
 
+import { post, user } from '@/app/constants';
 import MessageBox from '@/components/MessageBox';
 import Post from '@/components/Post';
 import RecentActivity from '@/components/RecentActivity';
@@ -15,7 +16,11 @@ const Layout = ({}: Props) => {
 
         <div className="flex flex-col gap-10">
           {[...Array(10)].map((_, index) => (
-            <Post key={index} />
+            <Post
+              key={index}
+              user={user}
+              post={post}
+            />
           ))}
         </div>
       </div>
