@@ -1,10 +1,11 @@
 'use client';
 
+import Avatar from '@/components/Avatar';
 import CardBase from '@/components/CardBase';
+import CommentButton from '@/components/CommentButton';
 import Comments from '@/components/Comments';
 import LikeButton from '@/components/LikeButton';
 import ReplyButton from '@/components/ReplyButton';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   CardContent,
   CardDescription,
@@ -12,12 +13,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { getInitials } from '@/lib/getInitials';
 import { AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
 import TimeAgo from 'react-timeago';
-import CommentButton from './CommentButton';
 
 interface Props {
   user: User;
@@ -27,8 +26,6 @@ interface Props {
 const Post = ({ user, post }: Props) => {
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
-
-  const initials = getInitials({ name: user.username });
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
@@ -41,13 +38,12 @@ const Post = ({ user, post }: Props) => {
   return (
     <CardBase className="p-4">
       <CardHeader className="flex-row gap-6 items-center space-y-0">
-        <Avatar className="h-16 w-16">
-          <AvatarImage
-            src={user.image}
-            alt={`${user.username}' avatar`}
-          />
-          <AvatarFallback>{initials}</AvatarFallback>
-        </Avatar>
+        <Avatar
+          src={user.image}
+          username={user.username}
+          className="h-16 w-16"
+        />
+
         <div className="flex flex-col">
           <CardTitle className="text-white text-base">
             {user.username}

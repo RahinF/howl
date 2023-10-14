@@ -122,10 +122,17 @@
 }
 
 nav::after {
-  content: '';
-  display: block;
-  height: 100%;
-  width: 1px;
+  @apply h-full w-px block content-[''];
+  background: radial-gradient(
+    circle,
+    rgb(136, 135, 136) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.comment:not(:last-child):after {
+  @apply h-px w-full block content-[''];
+
   background: radial-gradient(
     circle,
     rgb(136, 135, 136) 0%,
