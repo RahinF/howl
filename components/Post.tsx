@@ -37,11 +37,11 @@ const Post = ({ user, post }: Props) => {
 
   return (
     <CardBase className="p-4">
-      <CardHeader className="flex-row gap-6 items-center space-y-0">
+      <CardHeader className="flex-row gap-4 items-center space-y-0">
         <Avatar
           src={user.image}
           username={user.username}
-          className="h-16 w-16"
+          className="h-12 w-12"
         />
 
         <div className="flex flex-col">
@@ -82,7 +82,7 @@ const Post = ({ user, post }: Props) => {
         </div>
 
         <div>
-          <ReplyButton />
+          <ReplyButton replyTo={{ user, post }} />
         </div>
       </CardFooter>
       <AnimatePresence

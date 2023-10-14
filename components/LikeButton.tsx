@@ -84,6 +84,8 @@ const LikeButton = ({ isLiked, toggleLiked }: Props) => {
               initial="initial"
               animate="animate"
               exit="exit"
+              aria-hidden
+              focusable="false"
             />
           ) : (
             <MotionHeartIconOutline
@@ -93,6 +95,8 @@ const LikeButton = ({ isLiked, toggleLiked }: Props) => {
               initial="initial"
               animate="animate"
               exit="exit"
+              aria-hidden
+              focusable="false"
             />
           )}
         </AnimatePresence>

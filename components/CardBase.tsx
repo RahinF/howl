@@ -13,7 +13,7 @@ const CardBase = ({ className, children }: Props) => {
 
   return (
     <Card
-      className="card"
+      className="card shadow-lg"
       ref={addToRefs}
     >
       <div className={cn('card-content', className)}>{children}</div>

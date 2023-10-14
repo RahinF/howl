@@ -10,7 +10,7 @@ import { ReactNode, RefAttributes, forwardRef } from 'react';
 
 const MotionButton = motion(Button);
 
-const buttonVariants: Variants = {
+export const buttonVariants: Variants = {
   whileHover: {
     scale: 1.2,
     transition: {
