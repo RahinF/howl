@@ -36,7 +36,7 @@ const Post = ({ user, post }: Props) => {
   };
 
   return (
-    <CardBase className="p-4">
+    <CardBase className="sm:p-4">
       <CardHeader className="flex-row gap-4 items-center space-y-0">
         <Avatar
           src={user.image}

@@ -34,7 +34,7 @@ const links: Link[] = [
 
 const Nav = ({}: Props) => {
   return (
-    <nav className="sticky top-0 h-[70vh] xl:w-[308px] flex items-center">
+    <nav className="sticky top-0 h-[70vh] xl:w-[240px] w-full flex items-center">
       <span className="w-full relative">
         <div className="gradient1 w-full h-full absolute top-0 left-0" />
         <div className="gradient2 w-full h-full absolute top-0 left-0" />
@@ -47,7 +47,7 @@ const Nav = ({}: Props) => {
                 className="flex gap-6 items-center p-4 group"
               >
                 <link.icon className="h-8 w-8 text-muted-foreground group-hover:text-white transition duration-300" />
-                <span className="uppercase text-muted-foreground tracking-widest text-sm font-semibold hidden sm:block group-hover:text-white transition duration-300">
+                <span className="uppercase text-muted-foreground tracking-widest text-sm font-semibold hidden xl:block group-hover:text-white transition duration-300">
                   {link.label}
                 </span>
               </Link>

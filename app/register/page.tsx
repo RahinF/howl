@@ -7,7 +7,7 @@ export default function Register() {
   const register = () => {};
 
   return (
-    <main className="max-w-screen-xl min-h-screen m-auto">
+    <main className="max-w-screen-xl min-h-screen m-auto p-4 2xl:p-0">
       <CardProvider>
         <RegisterForm register={register} />
       </CardProvider>

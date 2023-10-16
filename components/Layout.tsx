@@ -11,10 +11,10 @@ interface Props {}
 const Layout = ({}: Props) => {
   return (
     <CardBaseContainer className="grid grid-cols-9 gap-6">
-      <div className="col-span-5 flex flex-col gap-6 pt-4">
+      <div className="md:col-span-8 lg:col-span-5 flex flex-col gap-6 py-4 col-span-full">
         <MessageBox />
 
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-6">
           {[...Array(10)].map((_, index) => (
             <Post
               key={index}
@@ -25,8 +25,10 @@ const Layout = ({}: Props) => {
         </div>
       </div>
 
-      <div className="col-span-4 pt-4">
-        <RecentActivity />
+      <div className="col-span-4 pt-4 hidden lg:block">
+        <div className="fixed top-4">
+          <RecentActivity />
+        </div>
       </div>
     </CardBaseContainer>
   );

@@ -37,7 +37,7 @@ const formSchema = z.object({
   comment: z.string().min(1, { message: 'Comment is required.' }),
 });
 
-const AddCommentForm = ({ addComment, closeDialog, replyTo }: Props) => {
+const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -130,4 +130,4 @@ const AddCommentForm = ({ addComment, closeDialog, replyTo }: Props) => {
   );
 };
 
-export default AddCommentForm;
+export default ReplyForm;

@@ -8,7 +8,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -61,7 +60,7 @@ const MessageBox = ({}: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <CardBase>
-          <CardContent className="flex justify-between gap-3 items-center pt-16">
+          <CardContent className="flex justify-between gap-3 items-center pt-6">
             <IconButton
               onClick={fileSelectOnClick}
               aria-label="select file"
@@ -77,13 +76,10 @@ const MessageBox = ({}: Props) => {
               control={form.control}
               name="comment"
               render={({ field }) => (
-                <FormItem className="flex-1 flex flex-col items-center space-y-0 relative">
-                  <FormLabel className="absolute -top-10 left-0 font-semibold tracking-tight text-white text-lg">
-                    What&apos;s going on?
-                  </FormLabel>
+                <FormItem className="flex-1 flex flex-col items-center space-y-0">
                   <FormControl>
                     <Input
-                      placeholder="Type your message here."
+                      placeholder="What's going on?"
                       className="border-none bg-[#282D4A] text-white"
                       autoComplete="off"
                       {...field}

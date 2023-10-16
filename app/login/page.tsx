@@ -7,7 +7,7 @@ export default function Login() {
   const login = () => {};
 
   return (
-    <main className="max-w-screen-xl min-h-screen m-auto">
+    <main className="max-w-screen-xl min-h-screen m-auto p-4 2xl:p-0">
       <CardProvider>
         <LoginForm login={login} />
       </CardProvider>

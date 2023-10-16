@@ -5,7 +5,7 @@ import { CardProvider } from '@/context/CardContext';
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import AddCommentForm from './AddCommentForm';
+import ReplyForm from './ReplyForm';
 
 interface Props {
   replyTo: {
@@ -39,7 +39,7 @@ const ReplyButton = ({ replyTo }: Props) => {
         </IconButton>
       </Tooltip>
 
-      <DialogContent className="sm:max-w-[425px] p-0">
+      <DialogContent className="">
         <CardProvider>
           <AnimatePresence mode="wait">
             <motion.div
@@ -48,7 +48,7 @@ const ReplyButton = ({ replyTo }: Props) => {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
             >
-              <AddCommentForm
+              <ReplyForm
                 addComment={addComment}
                 closeDialog={closeDialog}
                 replyTo={replyTo}
