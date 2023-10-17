@@ -16,7 +16,7 @@ const Tooltip = ({ children, label }: Props) => {
     <TooltipProvider>
       <TooltipContainer>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent className="bg-[#141627] text-white border-[#868587]">
+        <TooltipContent className="bg-[#141627] text-white border-none">
           <p>{label}</p>
         </TooltipContent>
       </TooltipContainer>
