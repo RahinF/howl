@@ -8,10 +8,7 @@ import { useState } from 'react';
 import ReplyForm from './ReplyForm';
 
 interface Props {
-  replyTo: {
-    user: User;
-    post: Post;
-  };
+  replyTo: Post;
 }
 
 const ReplyButton = ({ replyTo }: Props) => {

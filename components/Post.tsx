@@ -19,11 +19,10 @@ import { useState } from 'react';
 import TimeAgo from 'react-timeago';
 
 interface Props {
-  user: User;
   post: Post;
 }
 
-const Post = ({ user, post }: Props) => {
+const Post = ({ post }: Props) => {
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
@@ -39,14 +38,14 @@ const Post = ({ user, post }: Props) => {
     <CardBase className="sm:p-4">
       <CardHeader className="flex-row gap-4 items-center space-y-0">
         <Avatar
-          src={user.image}
-          username={user.username}
+          src={post.user.image}
+          username={post.user.username}
           className="h-12 w-12"
         />
 
         <div className="flex flex-col">
           <CardTitle className="text-white text-base">
-            {user.username}
+            {post.user.username}
           </CardTitle>
 
           <CardDescription>
@@ -55,15 +54,17 @@ const Post = ({ user, post }: Props) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="rounded-lg">
-          <Image
-            src={post.image}
-            alt="turtle"
-            width={644}
-            height={483}
-            className="rounded-[inherit]"
-          />
-        </div>
+        {post.image && (
+          <div className="rounded-lg">
+            <Image
+              src={post.image}
+              alt="turtle"
+              width={644}
+              height={483}
+              className="rounded-[inherit]"
+            />
+          </div>
+        )}
         <p className="leading-7 [&:not(:first-child)]:mt-6 text-white">
           {post.content}
         </p>
@@ -82,7 +83,7 @@ const Post = ({ user, post }: Props) => {
         </div>
 
         <div>
-          <ReplyButton replyTo={{ user, post }} />
+          <ReplyButton replyTo={post} />
         </div>
       </CardFooter>
       <AnimatePresence

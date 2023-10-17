@@ -175,5 +175,5 @@ nav::after {
 }
 
 .card-content {
-  @apply relative m-px z-[2] flex grow flex-col justify-center gap-4 rounded-lg bg-[#1C1F36];
+  @apply relative m-px z-[2] flex grow flex-col justify-center rounded-lg bg-[#1C1F36];
 }

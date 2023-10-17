@@ -2,45 +2,53 @@
 
 import CardBase from '@/components/CardBase';
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Image from 'next/image';
 import ReactTimeago from 'react-timeago';
+import Avatar from './Avatar';
 
-interface Props {}
+interface Props {
+  posts: Post[];
+}
 
-const activity: { title: string; date: Date }[] = [
-  {
-    title: 'Lorem ipsum dolor sit amet consectetur.',
-    date: new Date('December 17, 2022 03:24:00'),
-  },
-  {
-    title: 'Doloremque id autem vitae repudiandae!',
-    date: new Date('December 17, 2021 03:24:00'),
-  },
-  {
-    title: 'Omnis aliquam adipisci fugit ut!',
-    date: new Date('December 17, 2020 03:24:00'),
-  },
-];
-
-const RecentActivity = ({}: Props) => {
+const RecentActivity = ({ posts }: Props) => {
   return (
     <CardBase>
       <CardHeader>
         <CardTitle className="text-white text-lg">Recent Activity</CardTitle>
       </CardHeader>
-      <CardContent>
-        {activity.map(({ title, date }, index) => (
-          <div
-            key={index}
-            className="mb-4 flex gap-4 pb-4 last:mb-0 last:pb-0"
-          >
-            <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-            <div className="space-y-1">
+      <CardContent className="mb-4 flex flex-col gap-8">
+        {posts.map(({ user, content, date, image }, index) => (
+          <div key={index}>
+            <div className="flex gap-1 items-center">
+              <Avatar
+                className="h-8 w-8 mr-2"
+                src={user.image}
+                username={user.username}
+              />
               <p className="text-sm font-medium leading-none text-white">
-                {title}
+                {user.username}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <span className="font-black text-muted-foreground">·</span>
+              <p className="text-xs text-muted-foreground">
                 <ReactTimeago date={date} />
               </p>
+            </div>
+            <div className="w-full ">
+              {image ? (
+                <div className="rounded-lg mt-4">
+                  <Image
+                    src={image}
+                    alt=""
+                    width={260}
+                    height={200}
+                    className="h-auto w-full rounded-[inherit]"
+                  />
+                </div>
+              ) : (
+                <p className="leading-7 text-sm text-white line-clamp-2">
+                  {content}
+                </p>
+              )}
             </div>
           </div>
         ))}

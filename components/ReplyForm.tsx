@@ -27,10 +27,7 @@ import * as z from 'zod';
 interface Props {
   addComment: () => void;
   closeDialog: () => void;
-  replyTo: {
-    user: User;
-    post: Post;
-  };
+  replyTo: Post;
 }
 
 const formSchema = z.object({
@@ -82,7 +79,7 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
                 </CardTitle>
 
                 <CardDescription>
-                  <TimeAgo date={replyTo.post.date} />
+                  <TimeAgo date={replyTo.date} />
                 </CardDescription>
               </div>
             </CardHeader>
@@ -90,7 +87,7 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
             <CardContent className="flex flex-col gap-8">
               <div className="flex flex-col gap-6">
                 <p className="leading-7 [&:not(:first-child)]:mt-6 text-white">
-                  {replyTo.post.content}
+                  {replyTo.content}
                 </p>
               </div>
               <div className="flex flex-col gap-6">

@@ -6,7 +6,8 @@ interface User {
 
 interface Post {
   date: Date;
-  image: string;
+  image?: string;
   content: string;
   liked: string[];
+  user: User;
 }
