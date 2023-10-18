@@ -18,7 +18,7 @@ const Avatar = ({ src, username, className }: Props) => {
     <AvatarBase className={className}>
       <AvatarImage
         src={src}
-        alt={`${username}' avatar`}
+        alt={`${username}'s avatar`}
       />
       <AvatarFallback>{initials}</AvatarFallback>
     </AvatarBase>

@@ -14,7 +14,7 @@ interface Props {
 const ReplyButton = ({ replyTo }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
-  const addComment = () => {};
+  const addComment = async () => {};
 
   const closeDialog = () => {
     setOpen(false);

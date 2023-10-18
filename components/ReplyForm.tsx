@@ -14,7 +14,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
@@ -43,7 +42,7 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // await addComment(values.comment)
+    addComment();
 
     console.log(values);
     closeDialog();
@@ -59,6 +58,7 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
             <IconButton
               className="absolute right-5 top-5"
               onClick={closeDialog}
+              aria-label="close"
             >
               <XMarkIcon
                 className="h-6 w-6 text-white"
@@ -79,7 +79,10 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
                 </CardTitle>
 
                 <CardDescription>
-                  <TimeAgo date={replyTo.date} />
+                  <TimeAgo
+                    data-testid="date"
+                    date={replyTo.date}
+                  />
                 </CardDescription>
               </div>
             </CardHeader>
@@ -96,9 +99,6 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
                   name="comment"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-white">
-                        Your thoughts
-                      </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Post your reply"
