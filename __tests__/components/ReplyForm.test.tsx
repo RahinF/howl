@@ -1,6 +1,7 @@
 import { posts } from '@/app/constants';
 import ReplyForm from '@/components/ReplyForm';
 import { CardProvider } from '@/context/CardContext';
+import { getInitials } from '@/lib/getInitials';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -33,6 +34,18 @@ describe('ReplyForm', () => {
     });
 
     expect(username).toBeInTheDocument();
+  });
+
+  it('renders post owners avatar', () => {
+    render(
+      <CardProvider>
+        <ReplyForm {...props} />
+      </CardProvider>,
+    );
+    const avatarPlaceholder = screen.getByText(
+      getInitials({ name: replyTo.user.username }),
+    );
+    expect(avatarPlaceholder).toBeInTheDocument();
   });
 
   it('renders post owners text content', () => {
