@@ -1,6 +1,14 @@
 'use client';
 
 import CardBase from '@/components/CardBase';
+import CardBaseContainer from '@/components/CardBaseContainer';
+import { Button } from '@/components/ui/button';
+import {
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -9,18 +17,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import CardBaseContainer from './CardBaseContainer';
 
 const formSchema = z.object({
   email: z.string().min(1, { message: 'Email is required.' }).email({
@@ -36,10 +36,14 @@ interface Props {
 const LoginForm = ({ login }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // await login(values.email, values.password)
+    login();
 
     console.log(values);
   }
@@ -72,7 +76,7 @@ const LoginForm = ({ login }: Props) => {
                       />
                     </FormControl>
 
-                    <FormMessage />
+                    <FormMessage role="alert" />
                   </FormItem>
                 )}
               />
@@ -90,7 +94,7 @@ const LoginForm = ({ login }: Props) => {
                       />
                     </FormControl>
 
-                    <FormMessage />
+                    <FormMessage role="alert" />
                   </FormItem>
                 )}
               />

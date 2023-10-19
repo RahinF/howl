@@ -2,7 +2,7 @@
 
 import { addPost } from '@/api/post';
 import { posts } from '@/app/constants';
-import MessageBox from '@/components/MessageBox';
+import AddPostForm from '@/components/AddPostForm';
 import Post from '@/components/Post';
 import RecentActivity from '@/components/RecentActivity';
 import CardBaseContainer from './CardBaseContainer';
@@ -13,7 +13,7 @@ const Layout = ({}: Props) => {
   return (
     <CardBaseContainer className="grid grid-cols-9 gap-6">
       <div className="md:col-span-8 lg:col-span-6 flex flex-col gap-6 py-4 col-span-full">
-        <MessageBox addPost={addPost} />
+        <AddPostForm addPost={addPost} />
 
         <div className="flex flex-col gap-6">
           {posts.map((post, index) => (

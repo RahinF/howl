@@ -1,6 +1,7 @@
 'use client';
 
 import CardBase from '@/components/CardBase';
+import CardBaseContainer from '@/components/CardBaseContainer';
 import { Button } from '@/components/ui/button';
 import {
   CardContent,
@@ -20,15 +21,24 @@ import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import CardBaseContainer from './CardBaseContainer';
 
-const formSchema = z.object({
-  username: z.string().min(1, { message: 'Username is required.' }),
-  email: z.string().min(1, { message: 'Email is required.' }).email({
-    message: 'Please provide valid email address.',
-  }),
-  password: z.string().min(1, { message: 'Password is required.' }),
-});
+const formSchema = z
+  .object({
+    username: z.string().min(1, { message: 'Username is required.' }),
+    email: z.string().min(1, { message: 'Email is required.' }).email({
+      message: 'Please provide valid email address.',
+    }),
+    password: z
+      .string()
+      .min(8, { message: 'Password must have than 8 characters.' }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: 'Password entered should match.' }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Password do not match',
+  });
 
 interface Props {
   register: () => void;
@@ -37,10 +47,16 @@ interface Props {
 const RegisterForm = ({ register }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // await register(values.user, values.email, values.password)
+    register();
 
     console.log(values);
   }
@@ -72,7 +88,7 @@ const RegisterForm = ({ register }: Props) => {
                       />
                     </FormControl>
 
-                    <FormMessage />
+                    <FormMessage role="alert" />
                   </FormItem>
                 )}
               />
@@ -91,7 +107,7 @@ const RegisterForm = ({ register }: Props) => {
                       />
                     </FormControl>
 
-                    <FormMessage />
+                    <FormMessage role="alert" />
                   </FormItem>
                 )}
               />
@@ -109,7 +125,27 @@ const RegisterForm = ({ register }: Props) => {
                       />
                     </FormControl>
 
-                    <FormMessage />
+                    <FormMessage role="alert" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-white">
+                      Confirm Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        className="border-none bg-[#282D4A] text-white"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage role="alert" />
                   </FormItem>
                 )}
               />

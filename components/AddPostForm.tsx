@@ -27,7 +27,7 @@ interface Props {
   addPost: () => void;
 }
 
-const MessageBox = ({ addPost }: Props) => {
+const AddPostForm = ({ addPost }: Props) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -131,4 +131,4 @@ const MessageBox = ({ addPost }: Props) => {
   );
 };
 
-export default MessageBox;
+export default AddPostForm;
