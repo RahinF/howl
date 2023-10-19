@@ -23,9 +23,11 @@ const formSchema = z.object({
   file: z.custom<File>((v) => v instanceof File).optional(),
 });
 
-interface Props {}
+interface Props {
+  addPost: () => void;
+}
 
-const MessageBox = ({}: Props) => {
+const MessageBox = ({ addPost }: Props) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,8 +39,7 @@ const MessageBox = ({}: Props) => {
 
   const commentLength = !!!form.getValues('comment').length;
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    addPost();
     console.log(values);
   }
 

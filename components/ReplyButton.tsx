@@ -1,3 +1,4 @@
+import { addComment } from '@/api/comment';
 import IconButton from '@/components/IconButton';
 import Tooltip from '@/components/Tooltip';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -13,8 +14,6 @@ interface Props {
 
 const ReplyButton = ({ replyTo }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
-
-  const addComment = async () => {};
 
   const closeDialog = () => {
     setOpen(false);
@@ -36,7 +35,7 @@ const ReplyButton = ({ replyTo }: Props) => {
         </IconButton>
       </Tooltip>
 
-      <DialogContent className="">
+      <DialogContent>
         <CardProvider>
           <AnimatePresence mode="wait">
             <motion.div

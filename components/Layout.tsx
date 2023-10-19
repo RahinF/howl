@@ -1,5 +1,6 @@
 'use client';
 
+import { addPost } from '@/api/post';
 import { posts } from '@/app/constants';
 import MessageBox from '@/components/MessageBox';
 import Post from '@/components/Post';
@@ -12,7 +13,7 @@ const Layout = ({}: Props) => {
   return (
     <CardBaseContainer className="grid grid-cols-9 gap-6">
       <div className="md:col-span-8 lg:col-span-6 flex flex-col gap-6 py-4 col-span-full">
-        <MessageBox />
+        <MessageBox addPost={addPost} />
 
         <div className="flex flex-col gap-6">
           {posts.map((post, index) => (
