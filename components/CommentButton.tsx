@@ -16,6 +16,7 @@ const CommentButton = ({ showComments, toggleComments }: Props) => {
         onClick={toggleComments}
         aria-expanded={showComments}
         aria-label={label}
+        data-testid="comment-button"
       >
         <ChatBubbleOvalLeftIcon
           data-testid="comment-button-icon"

@@ -24,7 +24,10 @@ const ReplyButton = ({ replyTo }: Props) => {
       onOpenChange={setOpen}
     >
       <Tooltip label="Reply">
-        <IconButton>
+        <IconButton
+          data-testid="reply-button"
+          aria-label="reply-button"
+        >
           <DialogTrigger asChild>
             <ArrowUturnLeftIcon
               className="h-6 w-6 text-white"

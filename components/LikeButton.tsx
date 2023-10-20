@@ -71,6 +71,8 @@ const LikeButton = ({ isLiked, toggleLiked }: Props) => {
       <IconButton
         className="disabled:opacity-100"
         onClick={onClick}
+        data-testid="like-button"
+        aria-label={`${isLiked ? 'Unike' : 'Like'} post`}
       >
         <AnimatePresence
           initial={false}
@@ -86,6 +88,7 @@ const LikeButton = ({ isLiked, toggleLiked }: Props) => {
               exit="exit"
               aria-hidden
               focusable="false"
+              data-testid="liked-icon"
             />
           ) : (
             <MotionHeartIconOutline
@@ -97,6 +100,7 @@ const LikeButton = ({ isLiked, toggleLiked }: Props) => {
               exit="exit"
               aria-hidden
               focusable="false"
+              data-testid="unliked-icon"
             />
           )}
         </AnimatePresence>

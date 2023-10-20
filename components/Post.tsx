@@ -52,7 +52,10 @@ const Post = ({ post, comments }: Props) => {
           </CardTitle>
 
           <CardDescription>
-            <TimeAgo date={post.date} />
+            <TimeAgo
+              data-testid="post-date"
+              date={post.date}
+            />
           </CardDescription>
         </div>
       </CardHeader>
