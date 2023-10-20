@@ -130,16 +130,6 @@ nav::after {
   );
 }
 
-.comment:not(:last-child):after {
-  @apply h-px w-full block content-[''];
-
-  background: radial-gradient(
-    circle,
-    rgb(136, 135, 136) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
-
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }

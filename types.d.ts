@@ -5,9 +5,17 @@ interface User {
 }
 
 interface Post {
+  id: string;
   date: Date;
   image?: string;
   content: string;
   liked: string[];
   user: User;
+}
+
+interface PostComment {
+  id: string;
+  user: User;
+  date: Date;
+  content: string;
 }

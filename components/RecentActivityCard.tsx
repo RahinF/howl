@@ -1,6 +1,6 @@
 import Avatar from '@/components/Avatar';
 import Image from 'next/image';
-import ReactTimeago from 'react-timeago';
+import Timeago from 'react-timeago';
 
 interface Props {
   post: Post;
@@ -22,7 +22,7 @@ const RecentActivityCard = ({ post }: Props) => {
         </p>
         <span className="font-black text-muted-foreground">·</span>
         <p className="text-xs text-muted-foreground">
-          <ReactTimeago
+          <Timeago
             data-testid="date"
             date={date}
           />

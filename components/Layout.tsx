@@ -1,7 +1,7 @@
 'use client';
 
 import { addPost } from '@/api/post';
-import { posts } from '@/app/constants';
+import { posts, comments } from '@/app/constants';
 import AddPostForm from '@/components/AddPostForm';
 import Post from '@/components/Post';
 import RecentActivity from '@/components/RecentActivity';
@@ -16,10 +16,11 @@ const Layout = ({}: Props) => {
         <AddPostForm addPost={addPost} />
 
         <div className="flex flex-col gap-6">
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <Post
-              key={index}
+              key={post.id}
               post={post}
+              comments={comments}
             />
           ))}
         </div>

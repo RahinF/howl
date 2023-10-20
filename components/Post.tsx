@@ -20,11 +20,14 @@ import TimeAgo from 'react-timeago';
 
 interface Props {
   post: Post;
+  comments: PostComment[];
 }
 
-const Post = ({ post }: Props) => {
+const Post = ({ post, comments }: Props) => {
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+
+  const hasComments = !!comments.length;
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
@@ -71,10 +74,12 @@ const Post = ({ post }: Props) => {
       </CardContent>
       <CardFooter className="justify-between">
         <div className="flex gap-4">
-          <CommentButton
-            showComments={showComments}
-            toggleComments={toggleComments}
-          />
+          {hasComments && (
+            <CommentButton
+              showComments={showComments}
+              toggleComments={toggleComments}
+            />
+          )}
 
           <LikeButton
             isLiked={isLiked}
@@ -90,7 +95,12 @@ const Post = ({ post }: Props) => {
         initial={false}
         mode="wait"
       >
-        {showComments && <Comments animationKey={showComments} />}
+        {showComments && (
+          <Comments
+            animationKey={showComments.toString()}
+            comments={comments}
+          />
+        )}
       </AnimatePresence>
     </CardBase>
   );
