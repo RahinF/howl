@@ -18,6 +18,7 @@ const CommentButton = ({ showComments, toggleComments }: Props) => {
         aria-label={label}
       >
         <ChatBubbleOvalLeftIcon
+          data-testid="comment-button-icon"
           className="h-6 w-6 text-white"
           aria-hidden
           focusable="false"
