@@ -9,7 +9,7 @@ const posts: Post[] = [
     user: users[0],
   },
   {
-    date: new Date('December 17, 2022 09:24:00'),
+    date: new Date('December 1, 2022 09:24:00'),
     image: 'https://images.pexels.com/photos/1618606/pexels-photo-1618606.jpeg',
     content:
       'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non vitae velit nostrum architecto rerum iste voluptates sit quis perspiciatis tenetur.',
