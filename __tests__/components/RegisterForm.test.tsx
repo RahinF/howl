@@ -5,12 +5,12 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('RegisterForm', () => {
-  const register = jest.fn();
+  const mockRegister = jest.fn();
 
-  it('renders heading', () => {
+  it('should display the heading', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const heading = screen.getByRole('heading', {
@@ -20,60 +20,60 @@ describe('RegisterForm', () => {
     expect(heading).toBeInTheDocument();
   });
 
-  it('renders paragraph text', () => {
+  it('should display the paragraph text', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const paragraph = screen.getByText(/lorem ipsum dolor sit amet\./i);
     expect(paragraph).toBeInTheDocument();
   });
 
-  it('renders username label', () => {
+  it('should display the username label', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const label = screen.getByText(/username/i);
     expect(label).toBeInTheDocument();
   });
 
-  it('renders email label', () => {
+  it('should display the email label', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const label = screen.getByText(/email/i);
     expect(label).toBeInTheDocument();
   });
 
-  it('renders password label', () => {
+  it('should display the password label', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const label = screen.getByText('Password');
     expect(label).toBeInTheDocument();
   });
 
-  it('renders confirm password label', () => {
+  it('should display the confirm password label', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const label = screen.getByText('Confirm Password');
     expect(label).toBeInTheDocument();
   });
 
-  it('renders username input box', () => {
+  it('should display the username input box', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const input = screen.getByRole('textbox', {
@@ -82,10 +82,10 @@ describe('RegisterForm', () => {
     expect(input).toBeInTheDocument();
   });
 
-  it('renders email input box', () => {
+  it('should display the email input box', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const input = screen.getByRole('textbox', {
@@ -94,30 +94,30 @@ describe('RegisterForm', () => {
     expect(input).toBeInTheDocument();
   });
 
-  it('renders password input box', () => {
+  it('should display the password input box', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const input = screen.getByLabelText('Password');
     expect(input).toBeInTheDocument();
   });
 
-  it('renders confirm password input box', () => {
+  it('should display the confirm password input box', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const input = screen.getByLabelText('Confirm Password');
     expect(input).toBeInTheDocument();
   });
 
-  it('renders submit button', () => {
+  it('should display the submit button', () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const button = screen.getByRole('button', {
@@ -129,7 +129,7 @@ describe('RegisterForm', () => {
   it('should display 4 error messages when form is submitted empty', async () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const button = screen.getByRole('button', {
@@ -142,13 +142,13 @@ describe('RegisterForm', () => {
 
     expect(errors).toHaveLength(4);
 
-    expect(register).not.toBeCalled();
+    expect(mockRegister).not.toBeCalled();
   });
 
   it('should display no error messages when form is submitted correctly', async () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const usernameInput = screen.getByRole('textbox', {
@@ -180,7 +180,7 @@ describe('RegisterForm', () => {
   it('should display password mismatch error when password do not match', async () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const usernameInput = screen.getByRole('textbox', {
@@ -217,7 +217,7 @@ describe('RegisterForm', () => {
   it('should display password min length error when password is too short', async () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const usernameInput = screen.getByRole('textbox', {
@@ -256,7 +256,7 @@ describe('RegisterForm', () => {
   it('should display invalid email error when email is not in the correct format', async () => {
     render(
       <CardProvider>
-        <RegisterForm register={register} />
+        <RegisterForm register={mockRegister} />
       </CardProvider>,
     );
     const usernameInput = screen.getByRole('textbox', {

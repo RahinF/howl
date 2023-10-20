@@ -13,7 +13,7 @@ describe('ReplyForm', () => {
 
   const props = { addComment, closeDialog, replyTo };
 
-  it('renders close button', () => {
+  it('should display the close button', () => {
     render(
       <CardProvider>
         <ReplyForm {...props} />
@@ -23,7 +23,7 @@ describe('ReplyForm', () => {
     expect(button).toBeInTheDocument();
   });
 
-  it('renders post owners username', () => {
+  it('should display the post owners username', () => {
     render(
       <CardProvider>
         <ReplyForm {...props} />
@@ -36,7 +36,7 @@ describe('ReplyForm', () => {
     expect(username).toBeInTheDocument();
   });
 
-  it('renders post owners avatar', () => {
+  it('should display the post owners avatar', () => {
     render(
       <CardProvider>
         <ReplyForm {...props} />
@@ -48,7 +48,7 @@ describe('ReplyForm', () => {
     expect(avatarPlaceholder).toBeInTheDocument();
   });
 
-  it('renders post owners text content', () => {
+  it('should display the post owners text content', () => {
     render(
       <CardProvider>
         <ReplyForm {...props} />
@@ -59,7 +59,7 @@ describe('ReplyForm', () => {
     expect(textContent).toBeInTheDocument();
   });
 
-  it('renders post owners posted date', () => {
+  it('should display the post owners posted date', () => {
     render(
       <CardProvider>
         <ReplyForm {...props} />
@@ -69,8 +69,6 @@ describe('ReplyForm', () => {
     const date = screen.getByTestId('date');
     expect(date).toBeInTheDocument();
   });
-
-  it.todo('renders post users avatar');
 
   it('triggers the click function of the close button', async () => {
     render(
@@ -85,7 +83,7 @@ describe('ReplyForm', () => {
     expect(closeDialog).toBeCalled();
   });
 
-  it('renders textbox', () => {
+  it('should display the textbox', () => {
     render(
       <CardProvider>
         <ReplyForm {...props} />
@@ -130,7 +128,7 @@ describe('ReplyForm', () => {
     expect(addComment).toBeCalled();
   });
 
-  it('renders reply button', () => {
+  it('should display the reply button', () => {
     render(
       <CardProvider>
         <ReplyForm {...props} />

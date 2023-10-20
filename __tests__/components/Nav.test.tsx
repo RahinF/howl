@@ -4,13 +4,13 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 describe('Nav', () => {
-  it('renders correct number of links', () => {
+  it('should display the correct number of links', () => {
     render(<Nav />);
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(navLinks.length);
   });
 
-  it('renders correct href', () => {
+  it('should display the correct href', () => {
     render(<Nav />);
     const links = screen.getAllByRole('link');
 
@@ -19,7 +19,7 @@ describe('Nav', () => {
     });
   });
 
-  it('renders label', () => {
+  it('should display the label', () => {
     render(<Nav />);
 
     navLinks.forEach((link) => {
@@ -28,7 +28,7 @@ describe('Nav', () => {
     });
   });
 
-  it('renders icon', () => {
+  it('should display the icon', () => {
     render(<Nav />);
 
     navLinks.forEach((link) => {

@@ -45,7 +45,7 @@ const RecentActivity = ({ posts }: Props) => {
                   />
                 </div>
               ) : (
-                <p className="leading-7 text-sm text-white line-clamp-2">
+                <p className="mt-2 text-sm text-white line-clamp-2">
                   {content}
                 </p>
               )}
