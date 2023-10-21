@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { AnimatePresence } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useState } from 'react';
 import TimeAgo from 'react-timeago';
@@ -23,7 +24,9 @@ interface Props {
   comments: PostComment[];
 }
 
-const Post = ({ post, comments }: Props) => {
+export default function Post({ post, comments }: Props) {
+  const { data: session } = useSession();
+
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
@@ -84,15 +87,15 @@ const Post = ({ post, comments }: Props) => {
             />
           )}
 
-          <LikeButton
-            isLiked={isLiked}
-            toggleLiked={toggleLiked}
-          />
+          {session && (
+            <LikeButton
+              isLiked={isLiked}
+              toggleLiked={toggleLiked}
+            />
+          )}
         </div>
 
-        <div>
-          <ReplyButton replyTo={post} />
-        </div>
+        {session && <ReplyButton replyTo={post} />}
       </CardFooter>
       <AnimatePresence
         initial={false}
@@ -107,6 +110,4 @@ const Post = ({ post, comments }: Props) => {
       </AnimatePresence>
     </CardBase>
   );
-};
-
-export default Post;
+}

@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { CardProvider } from '@/context/CardContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -41,10 +42,15 @@ const formSchema = z
   });
 
 interface Props {
-  register: () => void;
+  register: ({
+    email,
+    password,
+    username,
+    confirmPassword,
+  }: RegisterFormValues) => void;
 }
 
-const RegisterForm = ({ register }: Props) => {
+export default function RegisterForm({ register }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,111 +62,113 @@ const RegisterForm = ({ register }: Props) => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    register();
+    register({ ...values });
 
     console.log(values);
   }
 
   return (
-    <CardBaseContainer className="flex items-center justify-center h-screen">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="max-w-md w-full"
-        >
-          <CardBase className="pt-10 pb-6">
-            <CardHeader>
-              <CardTitle className="text-white">Lorem, ipsum dolor.</CardTitle>
-              <CardDescription>Lorem ipsum dolor sit amet.</CardDescription>
-            </CardHeader>
+    <CardProvider>
+      <CardBaseContainer className="flex items-center justify-center h-screen">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="max-w-md w-full"
+          >
+            <CardBase className="pt-10 pb-6">
+              <CardHeader>
+                <CardTitle className="text-white">
+                  Lorem, ipsum dolor.
+                </CardTitle>
+                <CardDescription>Lorem ipsum dolor sit amet.</CardDescription>
+              </CardHeader>
 
-            <CardContent className="flex flex-col gap-4">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">Username</FormLabel>
-                    <FormControl>
-                      <Input
-                        className="border-none bg-[#282D4A] text-white"
-                        {...field}
-                      />
-                    </FormControl>
+              <CardContent className="flex flex-col gap-4">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="border-none bg-[#282D4A] text-white"
+                          {...field}
+                        />
+                      </FormControl>
 
-                    <FormMessage role="alert" />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage role="alert" />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        className="border-none bg-[#282D4A] text-white"
-                        {...field}
-                      />
-                    </FormControl>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          className="border-none bg-[#282D4A] text-white"
+                          {...field}
+                        />
+                      </FormControl>
 
-                    <FormMessage role="alert" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        className="border-none bg-[#282D4A] text-white"
-                        {...field}
-                      />
-                    </FormControl>
+                      <FormMessage role="alert" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          className="border-none bg-[#282D4A] text-white"
+                          {...field}
+                        />
+                      </FormControl>
 
-                    <FormMessage role="alert" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">
-                      Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        className="border-none bg-[#282D4A] text-white"
-                        {...field}
-                      />
-                    </FormControl>
+                      <FormMessage role="alert" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">
+                        Confirm Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          className="border-none bg-[#282D4A] text-white"
+                          {...field}
+                        />
+                      </FormControl>
 
-                    <FormMessage role="alert" />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="mt-6 bg-[#282D4A] duration-500 self-center w-24"
-              >
-                Register
-              </Button>
-            </CardContent>
-          </CardBase>
-        </form>
-      </Form>
-    </CardBaseContainer>
+                      <FormMessage role="alert" />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="submit"
+                  className="mt-6 bg-[#282D4A] duration-500 self-center w-24"
+                >
+                  Register
+                </Button>
+              </CardContent>
+            </CardBase>
+          </form>
+        </Form>
+      </CardBaseContainer>
+    </CardProvider>
   );
-};
-
-export default RegisterForm;
+}

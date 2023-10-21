@@ -1,9 +1,13 @@
+'use client';
+
 import { navLinks } from '@/app/constants';
+import LogoutButton from '@/components/LogoutButton';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-interface Props {}
+export default function Nav() {
+  const { data: session } = useSession();
 
-const Nav = ({}: Props) => {
   return (
     <nav className="sticky top-0 h-[70vh] xl:w-[240px] w-full flex items-center">
       <span className="w-full relative">
@@ -18,19 +22,20 @@ const Nav = ({}: Props) => {
                 className="flex gap-6 items-center p-4 group"
               >
                 <link.icon
-                  data-testid={`${link.label.toLowerCase()} icon`}
+                  data-testid={`${link.label.toLowerCase()}-icon`}
                   className="h-8 w-8 text-muted-foreground group-hover:text-white transition duration-300"
+                  aria-hidden
+                  focusable="false"
                 />
                 <span className="uppercase text-muted-foreground tracking-widest text-sm font-semibold hidden xl:block group-hover:text-white transition duration-300">
                   {link.label}
                 </span>
               </Link>
             ))}
+            {session && <LogoutButton />}
           </div>
         </div>
       </span>
     </nav>
   );
-};
-
-export default Nav;
+}

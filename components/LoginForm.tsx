@@ -18,7 +18,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { CardProvider } from '@/context/CardContext';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -29,11 +32,8 @@ const formSchema = z.object({
   password: z.string().min(1, { message: 'Password is required.' }),
 });
 
-interface Props {
-  login: () => void;
-}
-
-const LoginForm = ({ login }: Props) => {
+export default function LoginForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,74 +42,83 @@ const LoginForm = ({ login }: Props) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    login();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await signIn('credentials', {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    });
 
-    console.log(values);
+    if (!response?.error) {
+      router.push('/');
+      router.refresh();
+    }
   }
 
   return (
-    <CardBaseContainer className="flex items-center justify-center h-screen">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="max-w-md w-full"
-        >
-          <CardBase className="pt-10 pb-6">
-            <CardHeader>
-              <CardTitle className="text-white">Lorem, ipsum dolor.</CardTitle>
-              <CardDescription>Lorem ipsum dolor sit amet.</CardDescription>
-            </CardHeader>
+    <CardProvider>
+      <CardBaseContainer className="flex items-center justify-center h-screen">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="max-w-md w-full"
+          >
+            <CardBase className="pt-10 pb-6">
+              <CardHeader>
+                <CardTitle className="text-white">
+                  Lorem, ipsum dolor.
+                </CardTitle>
+                <CardDescription>Lorem ipsum dolor sit amet.</CardDescription>
+              </CardHeader>
 
-            <CardContent className="flex flex-col gap-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        className="border-none bg-[#282D4A] text-white"
-                        {...field}
-                      />
-                    </FormControl>
+              <CardContent className="flex flex-col gap-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          className="border-none bg-[#282D4A] text-white"
+                          {...field}
+                        />
+                      </FormControl>
 
-                    <FormMessage role="alert" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-white">Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        className="border-none bg-[#282D4A] text-white"
-                        {...field}
-                      />
-                    </FormControl>
+                      <FormMessage role="alert" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-white">Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          className="border-none bg-[#282D4A] text-white"
+                          {...field}
+                        />
+                      </FormControl>
 
-                    <FormMessage role="alert" />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="mt-6 bg-[#282D4A] duration-500 self-center w-24"
-              >
-                Login
-              </Button>
-            </CardContent>
-          </CardBase>
-        </form>
-      </Form>
-    </CardBaseContainer>
+                      <FormMessage role="alert" />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="submit"
+                  className="mt-6 bg-[#282D4A] duration-500 self-center w-24"
+                >
+                  Login
+                </Button>
+              </CardContent>
+            </CardBase>
+          </form>
+        </Form>
+      </CardBaseContainer>
+    </CardProvider>
   );
-};
-
-export default LoginForm;
+}

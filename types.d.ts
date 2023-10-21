@@ -19,3 +19,10 @@ interface PostComment {
   date: Date;
   content: string;
 }
+
+interface RegisterFormValues {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}

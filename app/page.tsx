@@ -1,8 +1,5 @@
-'use client';
-
 import Layout from '@/components/Layout';
 import Nav from '@/components/Nav';
-import { CardProvider } from '@/context/CardContext';
 
 export default function Home() {
   return (
@@ -12,9 +9,7 @@ export default function Home() {
           <Nav />
         </div>
         <div className="col-start-2 md:col-start-2 ml-10 md:ml-6 lg:ml-4 lg:col-start-2 xl:ml-14 xl:col-start-3 col-span-full">
-          <CardProvider>
-            <Layout />
-          </CardProvider>
+          <Layout />
         </div>
       </div>
     </main>

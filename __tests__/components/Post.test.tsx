@@ -5,6 +5,22 @@ import { getInitials } from '@/lib/getInitials';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useSession } from 'next-auth/react';
+
+jest.mock('next-auth/react', () => {
+  const originalModule = jest.requireActual('next-auth/react');
+  const mockSession = {
+    expires: new Date(Date.now() + 2 * 86400).toISOString(),
+    user: { username: 'admin' },
+  };
+  return {
+    __esModule: true,
+    ...originalModule,
+    useSession: jest.fn(() => {
+      return { data: mockSession, status: 'authenticated' };
+    }),
+  };
+});
 
 describe('Post', () => {
   const post = posts[1];
@@ -119,7 +135,7 @@ describe('Post', () => {
     expect(commentCards).toHaveLength(comments.length);
   });
 
-  it('should display the like button', () => {
+  it('should display the like button if authenticated', () => {
     render(
       <CardProvider>
         <Post
@@ -130,6 +146,24 @@ describe('Post', () => {
     );
     const button = screen.getByTestId('like-button');
     expect(button).toBeInTheDocument();
+  });
+
+  it('should not display the like button if not authenticated', () => {
+    (useSession as jest.Mock).mockReturnValueOnce({
+      data: null,
+      status: 'unauthenticated',
+    });
+
+    render(
+      <CardProvider>
+        <Post
+          post={post}
+          comments={comments}
+        />
+      </CardProvider>,
+    );
+    const button = screen.queryByTestId('like-button');
+    expect(button).not.toBeInTheDocument();
   });
 
   it('should change the icon when clicked', async () => {
@@ -154,7 +188,7 @@ describe('Post', () => {
     expect(likedIcon).toHaveClass('text-red-400');
   });
 
-  it('should display the reply button', () => {
+  it('should display the reply button if authenticated', () => {
     render(
       <CardProvider>
         <Post
@@ -165,5 +199,23 @@ describe('Post', () => {
     );
     const button = screen.getByTestId('reply-button');
     expect(button).toBeInTheDocument();
+  });
+
+  it('should not display the reply button if not authenticated', () => {
+    (useSession as jest.Mock).mockReturnValueOnce({
+      data: null,
+      status: 'unauthenticated',
+    });
+
+    render(
+      <CardProvider>
+        <Post
+          post={post}
+          comments={comments}
+        />
+      </CardProvider>,
+    );
+    const button = screen.queryByTestId('reply-button');
+    expect(button).not.toBeInTheDocument();
   });
 });

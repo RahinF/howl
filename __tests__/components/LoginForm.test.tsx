@@ -4,13 +4,19 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-describe('LoginForm', () => {
-  const mockLogin = jest.fn();
+jest.mock('next/navigation', () => ({
+  useRouter() {
+    return {
+      prefetch: () => null,
+    };
+  },
+}));
 
+describe('LoginForm', () => {
   it('should display the heading', () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
     const heading = screen.getByRole('heading', {
@@ -23,7 +29,7 @@ describe('LoginForm', () => {
   it('should display the paragraph text', () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
     const paragraph = screen.getByText(/lorem ipsum dolor sit amet\./i);
@@ -33,7 +39,7 @@ describe('LoginForm', () => {
   it('should display the email label', () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
     const label = screen.getByText(/email/i);
@@ -43,7 +49,7 @@ describe('LoginForm', () => {
   it('should display the password label', () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
     const label = screen.getByText('Password');
@@ -53,7 +59,7 @@ describe('LoginForm', () => {
   it('should display the email input box', () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
     const input = screen.getByRole('textbox', {
@@ -65,7 +71,7 @@ describe('LoginForm', () => {
   it('should display the password input box', () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
     const input = screen.getByLabelText('Password');
@@ -75,7 +81,7 @@ describe('LoginForm', () => {
   it('should display the submit button', () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
     const button = screen.getByRole('button', {
@@ -87,7 +93,7 @@ describe('LoginForm', () => {
   it('should display 2 error messages when form is submitted empty', async () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
     const button = screen.getByRole('button', {
@@ -99,14 +105,12 @@ describe('LoginForm', () => {
     const errors = screen.getAllByRole('alert');
 
     expect(errors).toHaveLength(2);
-
-    expect(mockLogin).not.toBeCalled();
   });
 
   it('should submit form if correct', async () => {
     render(
       <CardProvider>
-        <LoginForm login={mockLogin} />
+        <LoginForm />
       </CardProvider>,
     );
 
@@ -127,7 +131,5 @@ describe('LoginForm', () => {
     const errors = screen.queryAllByRole('alert');
 
     expect(errors).toHaveLength(0);
-
-    expect(mockLogin).toBeCalled();
   });
 });

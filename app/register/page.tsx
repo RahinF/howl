@@ -1,15 +1,17 @@
-'use client';
-
 import { register } from '@/api/auth';
 import RegisterForm from '@/components/RegisterForm';
-import { CardProvider } from '@/context/CardContext';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
-export default function Register() {
+export default async function Register() {
+  const session = await getServerSession();
+
+  if (session) {
+    redirect('/');
+  }
   return (
     <main className="max-w-screen-xl min-h-screen m-auto p-4 2xl:p-0">
-      <CardProvider>
-        <RegisterForm register={register} />
-      </CardProvider>
+      <RegisterForm register={register} />
     </main>
   );
 }
