@@ -75,54 +75,54 @@
   }
 }
 
-.gradient1 {
+.gradient-1 {
   background: radial-gradient(
-    circle at right 45%,
+    circle at right 50%,
     rgba(68, 21, 179, 0.6) 0%,
-    rgba(20, 22, 39, 0) 35%,
+    rgba(20, 22, 39, 0) 25%,
     rgba(20, 22, 39, 0) 100%
   );
 
-  animation: gradient1 4s ease-in infinite;
+  animation: gradient-1 10s ease-in infinite;
 }
 
-.gradient2 {
+.gradient-2 {
   background: radial-gradient(
-    circle at right 55%,
+    circle at right 50%,
     rgba(255, 0, 128, 0.6) 0%,
-    rgba(20, 22, 39, 0) 35%,
+    rgba(20, 22, 39, 0) 25%,
     rgba(20, 22, 39, 0) 100%
   );
 
-  animation: gradient2 4s ease-in infinite;
+  animation: gradient-2 15s ease-in infinite;
 }
 
-@keyframes gradient1 {
+@keyframes gradient-1 {
   0% {
-    background-position: 0% -50px;
+    background-position: 0px 0%;
   }
   50% {
-    background-position: 0% 0%;
+    background-position: 0% -75px;
   }
   100% {
-    background-position: 0% -50px;
+    background-position: 0px 0%;
   }
 }
 
-@keyframes gradient2 {
+@keyframes gradient-2 {
   0% {
-    background-position: 0% 50px;
+    background-position: 0% -75px;
   }
   50% {
-    background-position: 0% 0%;
+    background-position: 0% 75px;
   }
   100% {
-    background-position: 0% 50px;
+    background-position: 0% -75px;
   }
 }
 
 nav::after {
-  @apply h-full w-px block content-[''];
+  @apply h-[90vh] w-px block content-[''];
   background: radial-gradient(
     circle,
     rgb(136, 135, 136) 0%,
