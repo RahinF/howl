@@ -1,7 +1,25 @@
 import Layout from '@/components/Layout';
 import Nav from '@/components/Nav';
+import { client } from '@/sanity/lib/client';
 
-export default function Home() {
+const getPostsQuery = `
+*[_type == "post"]{
+    author->,
+    _id,
+    body,
+    _createdAt,
+    mainImage->
+}`;
+
+const getPosts = async () => {
+  const response = client.fetch(getPostsQuery);
+  return response;
+};
+
+export default async function Home() {
+  const posts = await getPosts();
+  console.log(posts);
+
   return (
     <main className="max-w-screen-xl min-h-screen m-auto pr-4 2xl:pr-0">
       <div className="grid grid-cols-12 gap-4">
