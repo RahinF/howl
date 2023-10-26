@@ -1,5 +1,3 @@
-'use client';
-
 import CardBase from '@/components/CardBase';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import { Button } from '@/components/ui/button';
@@ -47,7 +45,7 @@ interface Props {
     password,
     username,
     confirmPassword,
-  }: RegisterFormValues) => void;
+  }: RegisterFormValues) => Promise<void>;
 }
 
 export default function RegisterForm({ register }: Props) {
