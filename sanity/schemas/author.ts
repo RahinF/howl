@@ -20,7 +20,7 @@ export default defineType({
       name: 'password',
       title: 'Password',
       type: 'string',
-      hidden: true,
+      hidden: false,
     }),
     defineField({
       name: 'avatar',

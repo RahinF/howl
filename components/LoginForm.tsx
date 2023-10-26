@@ -1,5 +1,6 @@
 'use client';
 
+import { loginFormSchema } from '@/app/constants';
 import CardBase from '@/components/CardBase';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import { Button } from '@/components/ui/button';
@@ -25,24 +26,17 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-const formSchema = z.object({
-  email: z.string().min(1, { message: 'Email is required.' }).email({
-    message: 'Please provide valid email address.',
-  }),
-  password: z.string().min(1, { message: 'Password is required.' }),
-});
-
 export default function LoginForm() {
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     const response = await signIn('credentials', {
       email: values.email,
       password: values.password,
@@ -52,6 +46,10 @@ export default function LoginForm() {
     if (!response?.error) {
       router.push('/');
       router.refresh();
+    }
+
+    if (response?.error) {
+      console.log(response?.error);
     }
   }
 

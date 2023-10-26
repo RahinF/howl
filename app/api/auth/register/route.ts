@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import { hash } from 'bcryptjs';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request, response: Response) {
@@ -9,7 +9,7 @@ export async function POST(request: Request, response: Response) {
 
     console.log({ email, password, username, confirmPassword });
 
-    const hashedPassword = bcrypt.hash(password, 10);
+    const hashedPassword = hash(password, 10);
 
     // check if user exists in database
     // add user to database
