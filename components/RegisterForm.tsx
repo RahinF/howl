@@ -1,3 +1,4 @@
+import registerFormSchema from '@/app/constants/form/register';
 import CardBase from '@/components/CardBase';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import { Button } from '@/components/ui/button';
@@ -18,26 +19,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { CardProvider } from '@/context/CardContext';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-
-const formSchema = z
-  .object({
-    username: z.string().min(1, { message: 'Username is required.' }),
-    email: z.string().min(1, { message: 'Email is required.' }).email({
-      message: 'Please provide valid email address.',
-    }),
-    password: z
-      .string()
-      .min(8, { message: 'Password must have than 8 characters.' }),
-    confirmPassword: z
-      .string()
-      .min(8, { message: 'Password entered should match.' }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Password do not match',
-  });
 
 interface Props {
   register: ({
@@ -45,12 +32,14 @@ interface Props {
     password,
     username,
     confirmPassword,
-  }: RegisterFormValues) => Promise<void>;
+  }: RegisterFormValues) => Promise<{ success: boolean; message: string }>;
 }
 
 export default function RegisterForm({ register }: Props) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       username: '',
       email: '',
@@ -59,10 +48,37 @@ export default function RegisterForm({ register }: Props) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    register({ ...values });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [serverError, setserverError] = useState<string>('');
 
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof registerFormSchema>) {
+    try {
+      setLoading(true);
+
+      const response = await register({
+        ...values,
+      });
+
+      if (!response?.success) {
+        setserverError(response?.message);
+      }
+
+      if (response?.success) {
+        const response = await signIn('credentials', {
+          email: values.email,
+          password: values.password,
+          redirect: false,
+        });
+
+        if (!response?.error) {
+          router.push('/');
+          router.refresh();
+        }
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -78,7 +94,12 @@ export default function RegisterForm({ register }: Props) {
                 <CardTitle className="text-white">
                   Lorem, ipsum dolor.
                 </CardTitle>
-                <CardDescription>Lorem ipsum dolor sit amet.</CardDescription>
+                <CardDescription
+                  className={serverError && 'text-destructive'}
+                  {...(serverError && { role: 'alert' })}
+                >
+                  {serverError ? serverError : 'Lorem ipsum dolor sit amet.'}
+                </CardDescription>
               </CardHeader>
 
               <CardContent className="flex flex-col gap-4">
@@ -158,9 +179,11 @@ export default function RegisterForm({ register }: Props) {
                 />
                 <Button
                   type="submit"
-                  className="mt-6 bg-[#282D4A] duration-500 self-center w-24"
+                  className="mt-6 bg-[#282D4A] duration-500 self-center w-36"
+                  disabled={loading}
                 >
-                  Register
+                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {loading ? 'Please wait' : 'Register'}
                 </Button>
               </CardContent>
             </CardBase>

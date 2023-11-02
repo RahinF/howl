@@ -13,4 +13,6 @@ export const register = async ({
       confirmPassword,
     }),
   });
+
+  return await response.json();
 };
