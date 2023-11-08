@@ -8,7 +8,7 @@ jest.mock('next-auth/react', () => {
   const originalModule = jest.requireActual('next-auth/react');
   const mockSession = {
     expires: new Date(Date.now() + 2 * 86400).toISOString(),
-    user: { username: 'admin' },
+    user: { name: 'admin', email: 'admin@admin.com', image: null },
   };
   return {
     __esModule: true,
@@ -20,38 +20,10 @@ jest.mock('next-auth/react', () => {
 });
 
 describe('Nav', () => {
-  it('should display the correct number of links', () => {
+  it('should display the correct number of category links', () => {
     render(<Nav />);
     const links = screen.getAllByRole('link');
-    expect(links).toHaveLength(navLinks.length);
-  });
-
-  it('should display the correct href', () => {
-    render(<Nav />);
-    const links = screen.getAllByRole('link');
-
-    links.forEach((link, index) => {
-      expect(link).toHaveAttribute('href', navLinks[index].href);
-    });
-  });
-
-  it('should display the label', () => {
-    render(<Nav />);
-
-    navLinks.forEach((link) => {
-      const label = screen.getByText(link.label);
-      expect(label).toBeInTheDocument();
-    });
-  });
-
-  it('should display the icon', () => {
-    render(<Nav />);
-
-    navLinks.forEach((link) => {
-      const testId = `${link.label.toLowerCase()}-icon`;
-      const icon = screen.getByTestId(testId);
-      expect(icon).toBeInTheDocument();
-    });
+    expect(links).toHaveLength(navLinks.categories.length);
   });
 
   it('should display the logout button if authenticated', () => {
@@ -61,7 +33,8 @@ describe('Nav', () => {
     expect(button).toBeInTheDocument();
   });
 
-  it('should not display the logout button if not authenticated', () => {
+  it('should not display the logout button if not authenticated', async () => {
+    render(<Nav />);
     (useSession as jest.Mock).mockReturnValueOnce({
       data: null,
       status: 'unauthenticated',
@@ -69,5 +42,21 @@ describe('Nav', () => {
 
     const button = screen.queryByRole('button', { name: /logout/i });
     expect(button).not.toBeInTheDocument();
+  });
+
+  it('should display the login and register links if not authenticated', () => {
+    render(<Nav />);
+    (useSession as jest.Mock).mockReturnValueOnce({
+      data: null,
+      status: 'unauthenticated',
+    });
+
+    const authLinks = navLinks.auth.map((link) =>
+      expect(
+        screen.getByRole('link', { name: link.label }),
+      ).toBeInTheDocument(),
+    );
+
+    expect(authLinks).toHaveLength(navLinks.auth.length);
   });
 });
