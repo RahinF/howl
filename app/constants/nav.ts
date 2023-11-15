@@ -1,4 +1,16 @@
-import { NavLink } from '@/types';
+import { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react';
+
+export interface NavLink {
+  icon: ForwardRefExoticComponent<
+    Omit<SVGProps<SVGSVGElement>, 'ref'> & {
+      title?: string | undefined;
+      titleId?: string | undefined;
+    } & RefAttributes<SVGSVGElement>
+  >;
+  href: string;
+  label: string;
+}
+
 import {
   ArrowRightOnRectangleIcon,
   ArrowTrendingUpIcon,

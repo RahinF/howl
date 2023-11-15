@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { NavLink } from '@/types';
+import type { NavLink } from '@/app/constants/nav';
 
 export default function NavLink(link: NavLink) {
   return (

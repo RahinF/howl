@@ -1,5 +1,3 @@
-import { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react';
-
 interface User {
   id: string;
   username: string;
@@ -27,15 +25,4 @@ interface RegisterFormValues {
   email: string;
   password: string;
   confirmPassword: string;
-}
-
-interface NavLink {
-  icon: ForwardRefExoticComponent<
-    Omit<SVGProps<SVGSVGElement>, 'ref'> & {
-      title?: string | undefined;
-      titleId?: string | undefined;
-    } & RefAttributes<SVGSVGElement>
-  >;
-  href: string;
-  label: string;
 }

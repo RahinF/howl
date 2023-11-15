@@ -11,17 +11,24 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { PhotoIcon } from '@heroicons/react/24/outline';
+import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChangeEvent, useRef } from 'react';
+import Image from 'next/image';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { ComboboxForm } from '@/components/ComboboxForm';
 
 const formSchema = z.object({
   comment: z.string().min(1).max(250),
   file: z.custom<File>((v) => v instanceof File).optional(),
+  category: z.string({
+    required_error: 'Please select a category.',
+  }),
 });
+
+export type FormSchema = z.infer<typeof formSchema>;
 
 interface Props {
   addPost: () => void;
@@ -34,6 +41,7 @@ const AddPostForm = ({ addPost }: Props) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       comment: '',
+      category: 'news',
     },
   });
 
@@ -57,73 +65,118 @@ const AddPostForm = ({ addPost }: Props) => {
     }
   };
 
+  const removeFileOnClick = () => {
+    form.resetField('file');
+  };
+
+  const selectedFile = form.getValues('file');
+
+  const [filePreview, setFilePreview] = useState<string>('');
+
+  useEffect(() => {
+    if (!selectedFile) return;
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setFilePreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <CardBase>
-          <CardContent className="flex justify-between gap-3 items-center pt-6">
-            <IconButton
-              onClick={fileSelectOnClick}
-              aria-label="select file"
-            >
-              <PhotoIcon
-                className="h-6 w-6 text-white"
-                aria-hidden
-                focusable="false"
+          <CardContent className='pt-6'>
+            {selectedFile && (
+              <div className="rounded-lg relative">
+                <Image
+                  src={filePreview}
+                  alt="file preview"
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  className="rounded-[inherit] w-full h-auto"
+                />
+
+                <IconButton
+                  className="absolute right-3 top-10"
+                  onClick={removeFileOnClick}
+                  aria-label="remove file"
+                >
+                  <XMarkIcon
+                    className="h-6 w-6 text-white"
+                    aria-hidden
+                    focusable="false"
+                  />
+                </IconButton>
+              </div>
+            )}
+
+            <ComboboxForm form={form} />
+
+            <div className="flex justify-between gap-3 items-center pt-6">
+              <IconButton
+                onClick={fileSelectOnClick}
+                aria-label="select file"
+              >
+                <PhotoIcon
+                  className="h-6 w-6 text-white"
+                  aria-hidden
+                  focusable="false"
+                />
+              </IconButton>
+
+              <FormField
+                control={form.control}
+                name="comment"
+                render={({ field }) => (
+                  <FormItem className="flex-1 flex flex-col items-center space-y-0">
+                    <FormControl>
+                      <Input
+                        placeholder="What's going on?"
+                        className="border-none bg-[#282D4A] text-white"
+                        autoComplete="off"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
               />
-            </IconButton>
+              <FormField
+                control={form.control}
+                name="file"
+                render={({ field: { value, onChange, ...field } }) => (
+                  <FormItem className="hidden">
+                    <FormControl>
+                      <Input
+                        id="file"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        {...field}
+                        ref={inputFileRef}
+                        onChange={(event) => {
+                          onFileChange(event, onChange);
+                        }}
+                      />
+                    </FormControl>
 
-            <FormField
-              control={form.control}
-              name="comment"
-              render={({ field }) => (
-                <FormItem className="flex-1 flex flex-col items-center space-y-0">
-                  <FormControl>
-                    <Input
-                      placeholder="What's going on?"
-                      className="border-none bg-[#282D4A] text-white"
-                      autoComplete="off"
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="file"
-              render={({ field: { value, onChange, ...field } }) => (
-                <FormItem className="hidden">
-                  <FormControl>
-                    <Input
-                      id="file"
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      {...field}
-                      ref={inputFileRef}
-                      onChange={(event) => {
-                        onFileChange(event, onChange);
-                      }}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <IconButton
-              type="submit"
-              aria-label="create post"
-              disabled={commentLength}
-            >
-              <PaperAirplaneIcon
-                className="h-6 w-6 text-white"
-                aria-hidden
-                focusable="false"
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </IconButton>
+
+              <IconButton
+                type="submit"
+                aria-label="create post"
+                disabled={commentLength}
+              >
+                <PaperAirplaneIcon
+                  className="h-6 w-6 text-white"
+                  aria-hidden
+                  focusable="false"
+                />
+              </IconButton>
+            </div>
           </CardContent>
         </CardBase>
       </form>
