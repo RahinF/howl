@@ -21,21 +21,46 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { client } from '@/sanity/lib/client';
 import { Check, ChevronsUpDown } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-
-const categories = [
-  { label: 'Music', value: 'music' },
-  { label: 'Gaming', value: 'gaming' },
-  { label: 'News', value: 'news' },
-  { label: 'Sports', value: 'sports' },
-];
 
 interface Props {
   form: UseFormReturn<FormSchema, any, undefined>;
 }
 
+interface Category {
+  label: string;
+  value: string;
+}
+
 export function ComboboxForm({ form }: Props) {
+  const [categories, setCategories] = useState<Category[] | []>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response: { _id: string; title: string }[] | [] =
+        await client.fetch(
+          `*[_type == "category"]{
+              _id,
+              title
+           }`,
+        );
+
+      const categories = response.map((category) => ({
+        label: category.title,
+        value: category._id,
+      }));
+
+      setCategories(categories);
+    };
+
+    fetchCategories();
+  }, []);
+
+  if (!!!categories.length) return null;
+
   return (
     <FormField
       control={form.control}
@@ -55,7 +80,7 @@ export function ComboboxForm({ form }: Props) {
                 >
                   {field.value
                     ? categories.find(
-                        (language) => language.value === field.value,
+                        (category) => category.value === field.value,
                       )?.label
                     : 'Category'}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

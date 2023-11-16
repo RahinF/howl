@@ -49,7 +49,7 @@ export async function POST(request: Request, response: Response) {
     password: hashedPassword,
   };
 
-  await client.create(doc, { token: process.env.SANITY_API_TOKEN });
+  await client.create(doc, { token: process.env.NEXT_PUBLIC_SANITY_API_TOKEN });
 
   return NextResponse.json(
     { message: 'User registration success', success: true },

@@ -1,6 +1,7 @@
 'use client';
 
 import CardBase from '@/components/CardBase';
+import { ComboboxForm } from '@/components/ComboboxForm';
 import IconButton from '@/components/IconButton';
 import { CardContent } from '@/components/ui/card';
 import {
@@ -11,14 +12,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { client } from '@/sanity/lib/client';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { ComboboxForm } from '@/components/ComboboxForm';
 
 const formSchema = z.object({
   comment: z.string().min(1).max(250),
@@ -35,20 +37,53 @@ interface Props {
 }
 
 const AddPostForm = ({ addPost }: Props) => {
+  const { data: session } = useSession();
+
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       comment: '',
-      category: 'news',
     },
   });
 
-  const commentLength = !!!form.getValues('comment').length;
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const noComment = !!!form.getValues('comment').length;
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     addPost();
-    console.log(values);
+
+    let fileResponse;
+    if (values.file) {
+      const response = await fetch(
+        `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/assets/images/${process.env.NEXT_PUBLIC_SANITY_DATASET}`,
+        {
+          method: 'POST',
+          body: values.file,
+          headers: {
+            Authorization: `Bearer ${process.env
+              .NEXT_PUBLIC_SANITY_API_TOKEN!}`,
+          },
+        },
+      );
+      fileResponse = await response.json();
+    }
+
+    const doc = {
+      _type: 'post',
+      body: values.comment,
+      author: { _ref: session?.user?.id, _type: 'reference' },
+      category: { _ref: values.category, _type: 'reference' },
+      ...(fileResponse && {
+        mainImage: {
+          _ref: fileResponse.document._id,
+          _type: 'reference',
+        },
+      }),
+    };
+    await client.create(doc, {
+      token: process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
+    });
   }
 
   const fileSelectOnClick = () => {
@@ -85,7 +120,7 @@ const AddPostForm = ({ addPost }: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <CardBase>
-          <CardContent className='pt-6'>
+          <CardContent className="pt-6">
             {selectedFile && (
               <div className="rounded-lg relative">
                 <Image
@@ -168,7 +203,7 @@ const AddPostForm = ({ addPost }: Props) => {
               <IconButton
                 type="submit"
                 aria-label="create post"
-                disabled={commentLength}
+                disabled={noComment}
               >
                 <PaperAirplaneIcon
                   className="h-6 w-6 text-white"

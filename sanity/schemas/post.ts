@@ -6,12 +6,6 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-    }),
-
-    defineField({
       name: 'author',
       title: 'Author',
       type: 'reference',
@@ -24,30 +18,22 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      fields: [
-        {
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative Text',
-        },
-      ],
     }),
     defineField({
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      of: [{ type: 'reference', to: { type: 'category' } }],
+      name: 'category',
+      title: 'Category',
+      type: 'reference',
+      to: { type: 'category' },
     }),
 
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'blockContent',
+      type: 'string',
     }),
   ],
   preview: {
     select: {
-      title: 'title',
       author: 'author.username',
       media: 'mainImage',
     },

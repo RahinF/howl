@@ -14,8 +14,6 @@ interface Props {}
 export default function Layout({}: Props) {
   const { data: session } = useSession();
 
-  console.log(session)
-
   return (
     <CardProvider>
       <CardBaseContainer className="grid grid-cols-9 gap-6">
