@@ -1,7 +1,7 @@
 'use client';
 
 import { addPost } from '@/api/post';
-import { comments, posts } from '@/app/constants';
+import { comments } from '@/app/constants';
 import AddPostForm from '@/components/AddPostForm';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import Post from '@/components/Post';
@@ -9,9 +9,11 @@ import RecentActivity from '@/components/RecentActivity';
 import { CardProvider } from '@/context/CardContext';
 import { useSession } from 'next-auth/react';
 
-interface Props {}
+interface Props {
+  posts: Post[];
+}
 
-export default function Layout({}: Props) {
+export default function Layout({ posts }: Props) {
   const { data: session } = useSession();
 
   return (
@@ -23,7 +25,7 @@ export default function Layout({}: Props) {
           <div className="flex flex-col gap-6">
             {posts.map((post) => (
               <Post
-                key={post.id}
+                key={post._id}
                 post={post}
                 comments={comments}
               />

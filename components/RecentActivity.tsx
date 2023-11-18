@@ -18,7 +18,7 @@ const RecentActivity = ({ posts }: Props) => {
         {posts.map((post) => (
           <RecentActivityCard
             post={post}
-            key={post.date.toString()}
+            key={post._id}
           />
         ))}
       </CardContent>

@@ -44,29 +44,29 @@ export default function Post({ post, comments }: Props) {
     <CardBase className="sm:p-4">
       <CardHeader className="flex-row gap-4 items-center space-y-0">
         <Avatar
-          src={post.user.image}
-          username={post.user.username}
+          src={post.author.avatar}
+          username={post.author.username}
           className="h-12 w-12"
         />
 
         <div className="flex flex-col">
           <CardTitle className="text-white text-base">
-            {post.user.username}
+            {post.author.username}
           </CardTitle>
 
           <CardDescription>
             <TimeAgo
               data-testid="post-date"
-              date={post.date}
+              date={post._createdAt}
             />
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
-        {post.image && (
+        {post.mainImage && (
           <div className="rounded-lg">
             <Image
-              src={post.image}
+              src={post.mainImage}
               alt="turtle"
               width={644}
               height={483}
@@ -75,7 +75,7 @@ export default function Post({ post, comments }: Props) {
           </div>
         )}
         <p className="leading-7 [&:not(:first-child)]:mt-6 text-white">
-          {post.content}
+          {post.body}
         </p>
       </CardContent>
       <CardFooter className="justify-between">

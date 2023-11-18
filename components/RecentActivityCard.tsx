@@ -7,32 +7,30 @@ interface Props {
 }
 
 const RecentActivityCard = ({ post }: Props) => {
-  const { content, date, user, image } = post;
-
   return (
     <div data-testid="recent-activity-card">
       <div className="flex gap-1 items-center">
         <Avatar
           className="h-8 w-8 mr-2"
-          src={user.image}
-          username={user.username}
+          src={post.author.avatar}
+          username={post.author.username}
         />
         <p className="text-sm font-medium leading-none text-white">
-          {user.username}
+          {post.author.username}
         </p>
         <span className="font-black text-muted-foreground">·</span>
         <p className="text-xs text-muted-foreground">
           <Timeago
             data-testid="date"
-            date={date}
+            date={post._createdAt}
           />
         </p>
       </div>
       <div className="w-full">
-        {image ? (
+        {post.mainImage ? (
           <div className="rounded-lg mt-4">
             <Image
-              src={image}
+              src={post.mainImage}
               alt=""
               width={260}
               height={200}
@@ -40,7 +38,7 @@ const RecentActivityCard = ({ post }: Props) => {
             />
           </div>
         ) : (
-          <p className="mt-2 text-sm text-white line-clamp-2">{content}</p>
+          <p className="mt-2 text-sm text-white line-clamp-2">{post.body}</p>
         )}
       </div>
     </div>

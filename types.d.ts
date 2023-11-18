@@ -1,16 +1,16 @@
-interface User {
-  id: string;
+interface Author {
+  _id: string;
   username: string;
-  image: string;
+  avatar: string;
 }
 
 interface Post {
-  id: string;
-  date: Date;
-  image?: string;
-  content: string;
-  liked: string[];
-  user: User;
+  _id: string;
+  _createdAt: Date;
+  body?: string;
+  mainImage: string;
+  liked?: string[];
+  author: Author;
 }
 
 interface PostComment {
