@@ -81,9 +81,13 @@ const AddPostForm = ({ addPost }: Props) => {
         },
       }),
     };
-    await client.create(doc, {
-      token: process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
-    });
+    await client
+      .create(doc, {
+        token: process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
+      })
+      .then(() => {
+        form.reset();
+      });
   }
 
   const fileSelectOnClick = () => {

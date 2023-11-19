@@ -68,20 +68,20 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
             </IconButton>
             <CardHeader className="flex-row gap-4 items-center pb-2 space-y-0">
               <Avatar
-                username={replyTo.user.username}
-                src={replyTo.user.image}
+                username={replyTo.author.username}
+                src={replyTo.author.avatar}
                 className="w-12 h-12"
               />
 
               <div className="flex flex-col">
                 <CardTitle className="text-white text-base">
-                  {replyTo.user.username}
+                  {replyTo.author.username}
                 </CardTitle>
 
                 <CardDescription>
                   <TimeAgo
                     data-testid="date"
-                    date={replyTo.date}
+                    date={replyTo._createdAt}
                   />
                 </CardDescription>
               </div>
@@ -90,7 +90,7 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
             <CardContent className="flex flex-col gap-8">
               <div className="flex flex-col gap-6">
                 <p className="leading-7 [&:not(:first-child)]:mt-6 text-white">
-                  {replyTo.content}
+                  {replyTo.body}
                 </p>
               </div>
               <div className="flex flex-col gap-6">
