@@ -5,16 +5,45 @@ import { comments } from '@/app/constants';
 import AddPostForm from '@/components/AddPostForm';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import Post from '@/components/Post';
+import PostSkeleton from '@/components/PostSkeleton';
 import RecentActivity from '@/components/RecentActivity';
 import { CardProvider } from '@/context/CardContext';
+import { client } from '@/sanity/lib/client';
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
-interface Props {
-  posts: Post[];
-}
+const getPostsQuery = `
+*[_type == "post"] | order(_createdAt desc) {
+  _id, 
+  body, 
+  _createdAt, 
+  "mainImage":mainImage->url,
+  author->{  
+    _id,
+    username,
+    "avatar": avatar.asset->url
+    }
+  }`;
 
-export default function Layout({ posts }: Props) {
+export default function Layout() {
   const { data: session } = useSession();
+
+  const [posts, setPosts] = useState<Post[] | []>([]);
+  const [isLoading, setisLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const posts = await client.fetch(getPostsQuery);
+        setPosts(posts);
+      } catch (error) {
+      } finally {
+        setisLoading(false);
+      }
+    };
+
+    getPosts();
+  }, [posts]);
 
   return (
     <CardProvider>
@@ -23,13 +52,18 @@ export default function Layout({ posts }: Props) {
           {session && <AddPostForm addPost={addPost} />}
 
           <div className="flex flex-col gap-6">
-            {posts.map((post) => (
-              <Post
-                key={post._id}
-                post={post}
-                comments={comments}
-              />
-            ))}
+            {isLoading &&
+              [...Array(10)].map((_, index) => <PostSkeleton key={index} />)}
+
+            {!isLoading &&
+              !!posts.length &&
+              posts.map((post) => (
+                <Post
+                  key={post._id}
+                  post={post}
+                  comments={comments}
+                />
+              ))}
           </div>
         </div>
 
