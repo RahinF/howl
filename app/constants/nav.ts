@@ -26,12 +26,12 @@ import {
 const links = {
   categories: [
     { icon: HomeIcon, href: '/', label: 'Home' },
-    { icon: ArrowTrendingUpIcon, href: '/', label: 'Trending' },
+    { icon: ArrowTrendingUpIcon, href: '/trending', label: 'Trending' },
     { icon: UsersIcon, href: '/', label: 'Following' },
-    { icon: MusicalNoteIcon, href: '/', label: 'Music' },
-    { icon: PuzzlePieceIcon, href: '/', label: 'Gaming' },
-    { icon: NewspaperIcon, href: '/', label: 'News' },
-    { icon: TrophyIcon, href: '/', label: 'Sports' },
+    { icon: MusicalNoteIcon, href: '/music', label: 'Music' },
+    { icon: PuzzlePieceIcon, href: '/gaming', label: 'Gaming' },
+    { icon: NewspaperIcon, href: '/news', label: 'News' },
+    { icon: TrophyIcon, href: '/sports', label: 'Sports' },
   ],
   auth: [
     { icon: ArrowRightOnRectangleIcon, href: '/login', label: 'Login' },

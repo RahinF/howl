@@ -8,12 +8,20 @@ import Post from '@/components/Post';
 import PostSkeleton from '@/components/PostSkeleton';
 import RecentActivity from '@/components/RecentActivity';
 import { CardProvider } from '@/context/CardContext';
+import capitalizeFirstLetter from '@/lib/capitalizeFirstLetter';
 import { client } from '@/sanity/lib/client';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
-const getPostsQuery = `
-*[_type == "post"] | order(_createdAt desc) {
+const getPostsQuery = (category?: string) => {
+  if (category === 'trending') {
+    category = '';
+  }
+
+  const query = `
+*[_type == "post" ${
+    category ? `&& category->title == "${capitalizeFirstLetter(category)}"` : ''
+  }] | order(_createdAt desc) {
   _id, 
   body, 
   _createdAt, 
@@ -24,8 +32,14 @@ const getPostsQuery = `
     "avatar": avatar.asset->url
     }
   }`;
+  return query;
+};
 
-export default function Layout() {
+interface Props {
+  category?: string;
+}
+
+export default function Layout({ category }: Props) {
   const { data: session } = useSession();
 
   const [posts, setPosts] = useState<Post[] | []>([]);
@@ -34,7 +48,8 @@ export default function Layout() {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const posts = await client.fetch(getPostsQuery);
+        const query = getPostsQuery(category);
+        const posts = await client.fetch(query);
         setPosts(posts);
       } catch (error) {
       } finally {
@@ -43,7 +58,7 @@ export default function Layout() {
     };
 
     getPosts();
-  }, [posts]);
+  }, [category]);
 
   return (
     <CardProvider>
@@ -68,7 +83,10 @@ export default function Layout() {
         </div>
 
         <div className="col-span-3 pt-4 hidden lg:block">
-          <RecentActivity posts={posts.slice(0, 3)} />
+          <RecentActivity
+            posts={posts.slice(0, 3)}
+            isLoading={isLoading}
+          />
         </div>
       </CardBaseContainer>
     </CardProvider>
