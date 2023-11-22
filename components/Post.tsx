@@ -21,16 +21,15 @@ import TimeAgo from 'react-timeago';
 
 interface Props {
   post: Post;
-  comments: PostComment[];
 }
 
-export default function Post({ post, comments }: Props) {
+export default function Post({ post }: Props) {
   const { data: session } = useSession();
 
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
-  const hasComments = !!comments.length;
+  const hasComments = !!post.commentCount;
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
@@ -84,6 +83,7 @@ export default function Post({ post, comments }: Props) {
             <CommentButton
               showComments={showComments}
               toggleComments={toggleComments}
+              commentCount={post.commentCount}
             />
           )}
 
@@ -101,12 +101,7 @@ export default function Post({ post, comments }: Props) {
         initial={false}
         mode="wait"
       >
-        {showComments && (
-          <Comments
-            animationKey={showComments.toString()}
-            comments={comments}
-          />
-        )}
+        {showComments && <Comments postId={post._id} />}
       </AnimatePresence>
     </CardBase>
   );

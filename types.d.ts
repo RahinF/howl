@@ -11,13 +11,14 @@ interface Post {
   mainImage: string;
   liked?: string[];
   author: Author;
+  commentCount: number;
 }
 
 interface PostComment {
-  id: string;
-  user: User;
-  date: Date;
-  content: string;
+  _id: string;
+  author: Author;
+  _createdAt: Date;
+  body: string;
 }
 
 interface RegisterFormValues {

@@ -30,7 +30,7 @@ describe('ReplyForm', () => {
       </CardProvider>,
     );
     const username = screen.getByRole('heading', {
-      name: replyTo.user.username,
+      name: replyTo.author.username,
     });
 
     expect(username).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('ReplyForm', () => {
       </CardProvider>,
     );
     const avatarPlaceholder = screen.getByText(
-      getInitials({ name: replyTo.user.username }),
+      getInitials({ name: replyTo.author.username }),
     );
     expect(avatarPlaceholder).toBeInTheDocument();
   });
@@ -54,7 +54,7 @@ describe('ReplyForm', () => {
         <ReplyForm {...props} />
       </CardProvider>,
     );
-    const textContent = screen.getByText(replyTo.content);
+    const textContent = screen.getByText(replyTo.body);
 
     expect(textContent).toBeInTheDocument();
   });

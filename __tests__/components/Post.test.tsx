@@ -28,36 +28,29 @@ describe('Post', () => {
   it('should display the users avatar', () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
-    const avatar = screen.getByText(getInitials({ name: post.user.username }));
+    const avatar = screen.getByText(
+      getInitials({ name: post.author.username }),
+    );
     expect(avatar).toBeInTheDocument();
   });
 
   it('should display the username', () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
-    const username = screen.getByText(post.user.username);
+    const username = screen.getByText(post.author.username);
     expect(username).toBeInTheDocument();
   });
 
   it('should display the date', () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const date = screen.getByTestId('post-date');
@@ -67,10 +60,7 @@ describe('Post', () => {
   it('should display the post image if available', () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const image = screen.getByRole('img');
@@ -81,10 +71,7 @@ describe('Post', () => {
     const postWithNoImage = posts[0];
     render(
       <CardProvider>
-        <Post
-          post={postWithNoImage}
-          comments={comments}
-        />
+        <Post post={postWithNoImage} />
       </CardProvider>,
     );
     const image = screen.queryByRole('img');
@@ -94,23 +81,17 @@ describe('Post', () => {
   it('should display the text content', () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
-    const textContent = screen.getByText(post.content);
+    const textContent = screen.getByText(post.body);
     expect(textContent).toBeInTheDocument();
   });
 
   it('should display the comment button', () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const button = screen.getByTestId('comment-button');
@@ -120,10 +101,7 @@ describe('Post', () => {
   it('should display the comment section when comment button is clicked', async () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const button = screen.getByTestId('comment-button');
@@ -138,10 +116,7 @@ describe('Post', () => {
   it('should display the like button if authenticated', () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const button = screen.getByTestId('like-button');
@@ -156,10 +131,7 @@ describe('Post', () => {
 
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const button = screen.queryByTestId('like-button');
@@ -169,10 +141,7 @@ describe('Post', () => {
   it('should change the icon when clicked', async () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const button = screen.getByTestId('like-button');
@@ -191,10 +160,7 @@ describe('Post', () => {
   it('should display the reply button if authenticated', () => {
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const button = screen.getByTestId('reply-button');
@@ -209,10 +175,7 @@ describe('Post', () => {
 
     render(
       <CardProvider>
-        <Post
-          post={post}
-          comments={comments}
-        />
+        <Post post={post} />
       </CardProvider>,
     );
     const button = screen.queryByTestId('reply-button');

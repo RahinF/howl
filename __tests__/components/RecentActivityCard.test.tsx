@@ -9,13 +9,15 @@ describe('RecentActivity', () => {
 
   it('should display the user avatar', () => {
     render(<RecentActivityCard post={post} />);
-    const avatar = screen.getByText(getInitials({ name: post.user.username }));
+    const avatar = screen.getByText(
+      getInitials({ name: post.author.username }),
+    );
     expect(avatar).toBeInTheDocument();
   });
 
   it('should display the username', () => {
     render(<RecentActivityCard post={post} />);
-    const username = screen.getByText(post.user.username);
+    const username = screen.getByText(post.author.username);
     expect(username).toBeInTheDocument();
   });
 
@@ -34,7 +36,7 @@ describe('RecentActivity', () => {
 
   it('should display the text content if no image is available', () => {
     render(<RecentActivityCard post={posts[0]} />);
-    const textContent = screen.getByText(post.content);
+    const textContent = screen.getByText(post.body);
     expect(textContent).toBeInTheDocument();
   });
 });

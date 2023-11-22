@@ -1,7 +1,6 @@
 'use client';
 
 import { addPost } from '@/api/post';
-import { comments } from '@/app/constants';
 import AddPostForm from '@/components/AddPostForm';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import Post from '@/components/Post';
@@ -30,7 +29,8 @@ const getPostsQuery = (category?: string) => {
     _id,
     username,
     "avatar": avatar.asset->url
-    }
+    },
+    "commentCount": count(*[ _type == "comment" && ^._id == post->_id])
   }`;
   return query;
 };
@@ -43,7 +43,7 @@ export default function Layout({ category }: Props) {
   const { data: session } = useSession();
 
   const [posts, setPosts] = useState<Post[] | []>([]);
-  const [isLoading, setisLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -53,7 +53,7 @@ export default function Layout({ category }: Props) {
         setPosts(posts);
       } catch (error) {
       } finally {
-        setisLoading(false);
+        setLoading(false);
       }
     };
 
@@ -67,16 +67,15 @@ export default function Layout({ category }: Props) {
           {session && <AddPostForm addPost={addPost} />}
 
           <div className="flex flex-col gap-6">
-            {isLoading &&
+            {loading &&
               [...Array(10)].map((_, index) => <PostSkeleton key={index} />)}
 
-            {!isLoading &&
+            {!loading &&
               !!posts.length &&
               posts.map((post) => (
                 <Post
                   key={post._id}
                   post={post}
-                  comments={comments}
                 />
               ))}
           </div>
@@ -85,7 +84,7 @@ export default function Layout({ category }: Props) {
         <div className="col-span-3 pt-4 hidden lg:block">
           <RecentActivity
             posts={posts.slice(0, 3)}
-            isLoading={isLoading}
+            isLoading={loading}
           />
         </div>
       </CardBaseContainer>

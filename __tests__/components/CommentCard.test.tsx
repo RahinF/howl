@@ -10,14 +10,14 @@ describe('CommentCard', () => {
   it('should display the user avatar', () => {
     render(<CommentCard comment={comment} />);
     const avatar = screen.getByText(
-      getInitials({ name: comment.user.username }),
+      getInitials({ name: comment.author.username }),
     );
     expect(avatar).toBeInTheDocument();
   });
 
   it('should display the username', () => {
     render(<CommentCard comment={comment} />);
-    const username = screen.getByText(comment.user.username);
+    const username = screen.getByText(comment.author.username);
     expect(username).toBeInTheDocument();
   });
 
@@ -29,7 +29,7 @@ describe('CommentCard', () => {
 
   it('should display the text content', () => {
     render(<CommentCard comment={comment} />);
-    const textContent = screen.getByText(comment.content);
+    const textContent = screen.getByText(comment.body);
     expect(textContent).toBeInTheDocument();
   });
 });

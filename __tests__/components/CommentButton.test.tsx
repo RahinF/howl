@@ -11,6 +11,7 @@ describe('CommentButton', () => {
       <CommentButton
         showComments={true}
         toggleComments={mockToggleComments}
+        commentCount={0}
       />,
     );
     const button = screen.getByRole('button');
@@ -22,6 +23,7 @@ describe('CommentButton', () => {
       <CommentButton
         showComments={true}
         toggleComments={mockToggleComments}
+        commentCount={0}
       />,
     );
     const button = screen.getByRole('button');
@@ -34,6 +36,7 @@ describe('CommentButton', () => {
       <CommentButton
         showComments={false}
         toggleComments={mockToggleComments}
+        commentCount={0}
       />,
     );
     const button = screen.getByRole('button');
@@ -46,6 +49,7 @@ describe('CommentButton', () => {
       <CommentButton
         showComments={false}
         toggleComments={mockToggleComments}
+        commentCount={0}
       />,
     );
     const button = screen.getByRole('button');
@@ -60,9 +64,12 @@ describe('CommentButton', () => {
       <CommentButton
         showComments={false}
         toggleComments={mockToggleComments}
+        commentCount={0}
       />,
     );
     const icon = screen.getByTestId('comment-button-icon');
     expect(icon).toBeInTheDocument();
   });
+
+  it.todo('should display comment count');
 });

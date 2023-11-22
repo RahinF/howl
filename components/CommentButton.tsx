@@ -1,14 +1,22 @@
 import IconButton from '@/components/IconButton';
 import Tooltip from '@/components/Tooltip';
+import { Badge } from '@/components/ui/badge';
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline';
 
 interface Props {
   showComments: boolean;
   toggleComments: () => void;
+  commentCount: number;
 }
 
-const CommentButton = ({ showComments, toggleComments }: Props) => {
+const CommentButton = ({
+  showComments,
+  toggleComments,
+  commentCount,
+}: Props) => {
   const label = [showComments ? 'Hide' : 'Show', 'comments'].join(' ');
+
+  const commentCountText = commentCount > 99 ? '99' : commentCount;
 
   return (
     <Tooltip label={label}>
@@ -17,7 +25,9 @@ const CommentButton = ({ showComments, toggleComments }: Props) => {
         aria-expanded={showComments}
         aria-label={label}
         data-testid="comment-button"
+        className="relative"
       >
+        <Badge className="absolute -bottom-1 left-7">{commentCountText}</Badge>
         <ChatBubbleOvalLeftIcon
           data-testid="comment-button-icon"
           className="h-6 w-6 text-white"

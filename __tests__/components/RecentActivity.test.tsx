@@ -8,7 +8,10 @@ describe('RecentActivity', () => {
   it('should display the heading', () => {
     render(
       <CardProvider>
-        <RecentActivity posts={posts} />
+        <RecentActivity
+          isLoading={false}
+          posts={posts}
+        />
       </CardProvider>,
     );
     const heading = screen.getByRole('heading', {
@@ -20,7 +23,10 @@ describe('RecentActivity', () => {
   it('should display cards', () => {
     render(
       <CardProvider>
-        <RecentActivity posts={posts} />
+        <RecentActivity
+          isLoading={false}
+          posts={posts}
+        />
       </CardProvider>,
     );
     const cards = screen.getAllByTestId('recent-activity-card');

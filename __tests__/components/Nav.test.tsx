@@ -2,7 +2,6 @@ import { navLinks } from '@/app/constants';
 import Nav from '@/components/Nav';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { useSession } from 'next-auth/react';
 
 jest.mock('next-auth/react', () => {
   const originalModule = jest.requireActual('next-auth/react');

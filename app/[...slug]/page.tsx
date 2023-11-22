@@ -11,7 +11,7 @@ export default async function Home({ params }: { params: { slug: string } }) {
           <Nav />
         </div>
         <div className="col-start-2 md:col-start-2 ml-10 md:ml-6 lg:ml-4 lg:col-start-2 xl:ml-14 xl:col-start-3 col-span-full">
-          <Layout category={category}/>
+          <Layout category={category} />
         </div>
       </div>
     </main>
