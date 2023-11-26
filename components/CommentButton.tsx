@@ -7,12 +7,14 @@ interface Props {
   showComments: boolean;
   toggleComments: () => void;
   commentCount: number;
+  isDisabled: boolean
 }
 
 const CommentButton = ({
   showComments,
   toggleComments,
   commentCount,
+  isDisabled
 }: Props) => {
   const label = [showComments ? 'Hide' : 'Show', 'comments'].join(' ');
 
@@ -26,6 +28,7 @@ const CommentButton = ({
         aria-label={label}
         data-testid="comment-button"
         className="relative"
+        disabled={isDisabled}
       >
         <Badge className="absolute -bottom-1 left-7">{commentCountText}</Badge>
         <ChatBubbleOvalLeftIcon

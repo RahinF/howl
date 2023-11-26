@@ -1,3 +1,4 @@
+import { AddComment } from '@/api/comment';
 import Avatar from '@/components/Avatar';
 import CardBase from '@/components/CardBase';
 import CardBaseContainer from '@/components/CardBaseContainer';
@@ -19,12 +20,13 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import TimeAgo from 'react-timeago';
 import * as z from 'zod';
 
 interface Props {
-  addComment: () => void;
+  addComment: AddComment;
   closeDialog: () => void;
   replyTo: Post;
 }
@@ -34,6 +36,7 @@ const formSchema = z.object({
 });
 
 const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
+  const { data: session } = useSession();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,11 +44,15 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    addComment();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const comment = values.comment;
+    const userId = session?.user?.id;
+    const postId = replyTo._id;
 
-    console.log(values);
-    closeDialog();
+    await addComment({ comment, userId, postId }).then(() => {
+      form.reset();
+      closeDialog();
+    });
   }
 
   const commentLength = !!!form.getValues('comment').length;

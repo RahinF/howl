@@ -79,13 +79,12 @@ export default function Post({ post }: Props) {
       </CardContent>
       <CardFooter className="justify-between">
         <div className="flex gap-4">
-          {hasComments && (
-            <CommentButton
-              showComments={showComments}
-              toggleComments={toggleComments}
-              commentCount={post.commentCount}
-            />
-          )}
+          <CommentButton
+            showComments={showComments}
+            toggleComments={toggleComments}
+            commentCount={post.commentCount}
+            isDisabled={!hasComments}
+          />
 
           {session && (
             <LikeButton
