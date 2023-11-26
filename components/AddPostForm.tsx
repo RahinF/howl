@@ -1,5 +1,6 @@
 'use client';
 
+import { AddPost } from '@/api/post';
 import CardBase from '@/components/CardBase';
 import { ComboboxForm } from '@/components/ComboboxForm';
 import IconButton from '@/components/IconButton';
@@ -12,7 +13,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { client } from '@/sanity/lib/client';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,7 +35,7 @@ const formSchema = z.object({
 export type FormSchema = z.infer<typeof formSchema>;
 
 interface Props {
-  addPost: () => void;
+  addPost: AddPost;
 }
 
 const AddPostForm = ({ addPost }: Props) => {
@@ -54,44 +54,12 @@ const AddPostForm = ({ addPost }: Props) => {
   const noComment = !!!form.getValues('comment').length;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    addPost();
+    const userId = session?.user?.id;
 
-    let fileResponse;
-    if (values.file) {
-      const response = await fetch(
-        `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v2021-06-07/assets/images/${process.env.NEXT_PUBLIC_SANITY_DATASET}`,
-        {
-          method: 'POST',
-          body: values.file,
-          headers: {
-            Authorization: `Bearer ${process.env
-              .NEXT_PUBLIC_SANITY_API_TOKEN!}`,
-          },
-        },
-      );
-      fileResponse = await response.json();
-    }
-
-    const doc = {
-      _type: 'post',
-      body: values.comment,
-      author: { _ref: session?.user?.id, _type: 'reference' },
-      category: { _ref: values.category, _type: 'reference' },
-      ...(fileResponse && {
-        mainImage: {
-          _ref: fileResponse.document._id,
-          _type: 'reference',
-        },
-      }),
-    };
-    await client
-      .create(doc, {
-        token: process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
-      })
-      .then(() => {
-        form.reset();
-        router.refresh();
-      });
+    await addPost({ values, userId }).then(() => {
+      form.reset();
+      router.refresh();
+    });
   }
 
   const fileSelectOnClick = () => {

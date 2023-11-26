@@ -1,5 +1,6 @@
 'use client';
 
+import { fetchCategories } from '@/api/categories';
 import { FormSchema } from '@/components/AddPostForm';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,7 +22,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { client } from '@/sanity/lib/client';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
@@ -39,24 +39,10 @@ export function ComboboxForm({ form }: Props) {
   const [categories, setCategories] = useState<Category[] | []>([]);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const response: { _id: string; title: string }[] | [] =
-        await client.fetch(
-          `*[_type == "category"]{
-              _id,
-              title
-           }`,
-        );
-
-      const categories = response.map((category) => ({
-        label: category.title,
-        value: category._id,
-      }));
-
+    (async () => {
+      const categories = await fetchCategories();
       setCategories(categories);
-    };
-
-    fetchCategories();
+    })();
   }, []);
 
   if (!!!categories.length) return null;

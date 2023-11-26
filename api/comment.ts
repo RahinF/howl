@@ -1,7 +1,7 @@
 import { client } from '@/sanity/lib/client';
 import { SanityDocument } from 'next-sanity';
 
-interface Props {
+interface AddCommentProps {
   comment: string;
   userId?: string;
   postId: string;
@@ -22,9 +22,17 @@ type ReturnType = Promise<
   }>
 >;
 
-export type AddComment = ({ comment, userId, postId }: Props) => ReturnType;
+export type AddComment = ({
+  comment,
+  userId,
+  postId,
+}: AddCommentProps) => ReturnType;
 
-export const addComment = async ({ comment, userId, postId }: Props) => {
+export const addComment = async ({
+  comment,
+  userId,
+  postId,
+}: AddCommentProps) => {
   const doc = {
     _type: 'comment',
     body: comment,
@@ -34,4 +42,23 @@ export const addComment = async ({ comment, userId, postId }: Props) => {
   return await client.create(doc, {
     token: process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
   });
+};
+
+export const getCommentsQuery = (postId: string) => {
+  const query = `*[_type == "comment" && post->_id == "${postId}"] | order(_createdAt desc){
+      author->{
+        username, 
+        "avatar": avatar.asset->url
+      },
+        _createdAt,
+        _id,
+        body
+      }`;
+  return query;
+};
+
+export const getComments = async (postId: string) => {
+  const query = getCommentsQuery(postId);
+  const comments: PostComment[] = await client.fetch(query);
+  return comments;
 };

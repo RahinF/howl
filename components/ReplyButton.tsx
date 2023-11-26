@@ -1,12 +1,12 @@
 import { addComment } from '@/api/comment';
 import IconButton from '@/components/IconButton';
+import ReplyForm from '@/components/ReplyForm';
 import Tooltip from '@/components/Tooltip';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { CardProvider } from '@/context/CardContext';
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import ReplyForm from './ReplyForm';
 
 interface Props {
   replyTo: Post;

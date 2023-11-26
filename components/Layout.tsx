@@ -1,39 +1,14 @@
 'use client';
 
-import { addPost } from '@/api/post';
+import { addPost, getPosts } from '@/api/post';
 import AddPostForm from '@/components/AddPostForm';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import Post from '@/components/Post';
 import PostSkeleton from '@/components/PostSkeleton';
 import RecentActivity from '@/components/RecentActivity';
 import { CardProvider } from '@/context/CardContext';
-import capitalizeFirstLetter from '@/lib/capitalizeFirstLetter';
-import { client } from '@/sanity/lib/client';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-
-const getPostsQuery = (category?: string) => {
-  if (category === 'trending') {
-    category = '';
-  }
-
-  const query = `
-*[_type == "post" ${
-    category ? `&& category->title == "${capitalizeFirstLetter(category)}"` : ''
-  }] | order(_createdAt desc) {
-  _id, 
-  body, 
-  _createdAt, 
-  "mainImage":mainImage->url,
-  author->{  
-    _id,
-    username,
-    "avatar": avatar.asset->url
-    },
-    "commentCount": count(*[ _type == "comment" && ^._id == post->_id])
-  }`;
-  return query;
-};
 
 interface Props {
   category?: string;
@@ -45,19 +20,18 @@ export default function Layout({ category }: Props) {
   const [posts, setPosts] = useState<Post[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const postsLoaded = !loading && !!posts.length;
+
   useEffect(() => {
-    const getPosts = async () => {
+    (async () => {
       try {
-        const query = getPostsQuery(category);
-        const posts = await client.fetch(query);
+        const posts = await getPosts(category);
         setPosts(posts);
       } catch (error) {
       } finally {
         setLoading(false);
       }
-    };
-
-    getPosts();
+    })();
   }, [category]);
 
   return (
@@ -70,8 +44,7 @@ export default function Layout({ category }: Props) {
             {loading &&
               [...Array(10)].map((_, index) => <PostSkeleton key={index} />)}
 
-            {!loading &&
-              !!posts.length &&
+            {postsLoaded &&
               posts.map((post) => (
                 <Post
                   key={post._id}

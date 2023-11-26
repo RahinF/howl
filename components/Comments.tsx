@@ -1,6 +1,6 @@
+import { getComments } from '@/api/comment';
 import CommentCard from '@/components/CommentCard';
 import CommentCardSkeleton from '@/components/CommentCardSkeleton';
-import { client } from '@/sanity/lib/client';
 import { Variants, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
@@ -40,19 +40,6 @@ interface Props {
   postId: string;
 }
 
-const getCommentsQuery = (postId: string) => {
-  const query = `*[_type == "comment" && post->_id == "${postId}"] | order(_createdAt desc){
-    author->{
-      username, 
-      "avatar": avatar.asset->url
-    },
-      _createdAt,
-      _id,
-      body
-    }`;
-  return query;
-};
-
 const Comments = ({ postId }: Props) => {
   const [comments, setComments] = useState<PostComment[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -60,18 +47,15 @@ const Comments = ({ postId }: Props) => {
   const commentsLoaded = !loading && !!comments.length;
 
   useEffect(() => {
-    const getComments = async () => {
+    (async () => {
       try {
-        const query = getCommentsQuery(postId);
-        const comments: PostComment[] = await client.fetch(query);
+        const comments = await getComments(postId);
         setComments(comments);
       } catch (error) {
       } finally {
         setLoading(false);
       }
-    };
-
-    getComments();
+    })();
   }, [postId]);
 
   return (
