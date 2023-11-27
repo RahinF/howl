@@ -1,7 +1,8 @@
+import ReactQueryProvider from '@/components/providers/ReactQueryProvider';
+import AuthProvider from '@/context/AuthProvider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import AuthProvider from '@/context/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +19,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#141627]`}>
-        <AuthProvider>{children}</AuthProvider>
+        <ReactQueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -1,17 +1,16 @@
 'use client';
 
+import { getRecentActivity } from '@/api/post';
 import CardBase from '@/components/CardBase';
 import RecentActivityCard from '@/components/RecentActivityCard';
-import RecentActivitySkeletonCard from '@/components/RecentActivitySkeletonCard';
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
-interface Props {
-  posts: Post[];
-  isLoading: boolean;
-}
-
-const RecentActivity = ({ posts, isLoading }: Props) => {
-  const postsLoaded = !isLoading && !!posts.length;
+const RecentActivity = () => {
+  const { data: posts } = useSuspenseQuery({
+    queryKey: ['recent-activity'],
+    queryFn: () => getRecentActivity(),
+  });
 
   return (
     <CardBase>
@@ -19,18 +18,12 @@ const RecentActivity = ({ posts, isLoading }: Props) => {
         <CardTitle className="text-white text-lg">Recent Activity</CardTitle>
       </CardHeader>
       <CardContent className="mb-4 flex flex-col gap-8">
-        {isLoading &&
-          [...Array(3)].map((_, index) => (
-            <RecentActivitySkeletonCard key={index} />
-          ))}
-
-        {postsLoaded &&
-          posts.map((post) => (
-            <RecentActivityCard
-              post={post}
-              key={post._id}
-            />
-          ))}
+        {posts.map((post) => (
+          <RecentActivityCard
+            post={post}
+            key={post._id}
+          />
+        ))}
       </CardContent>
     </CardBase>
   );

@@ -48,7 +48,7 @@ export const addPost = async ({ values, userId }: AddPostProps) => {
   });
 };
 
-const getPostsQuery = (category?: string) => {
+export const getPostsQuery = (category?: string) => {
   if (category === 'trending') {
     category = '';
   }
@@ -71,8 +71,21 @@ const getPostsQuery = (category?: string) => {
   return getPostsQuery;
 };
 
-export const getPosts = async (category?: string) => {
-  const query = getPostsQuery(category);
-  const posts = await client.fetch(query);
-  return posts;
-};
+export const getPosts = async (category?: string): Promise<Post[]> =>
+  await client.fetch(getPostsQuery(category));
+
+const getRecentActivityQuery = `
+  *[_type == "post"] | order(_createdAt desc)[0..2] {
+    _id, 
+    body, 
+    _createdAt, 
+    "mainImage":mainImage->url,
+    author->{  
+      _id,
+      username,
+      "avatar": avatar.asset->url
+      },
+    }`;
+
+export const getRecentActivity = async (): Promise<Post[]> =>
+  await client.fetch(getRecentActivityQuery);
