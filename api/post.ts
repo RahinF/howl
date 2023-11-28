@@ -2,7 +2,7 @@ import capitalizeFirstLetter from '@/lib/capitalizeFirstLetter';
 import { client } from '@/sanity/lib/client';
 import { SanityDocument } from 'next-sanity';
 
-interface AddPostProps {
+export interface AddPostProps {
   values: {
     comment: string;
     category: string;

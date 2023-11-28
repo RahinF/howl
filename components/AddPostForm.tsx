@@ -16,9 +16,9 @@ import { Input } from '@/components/ui/input';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -40,7 +40,16 @@ interface Props {
 
 const AddPostForm = ({ addPost }: Props) => {
   const { data: session } = useSession();
-  const router = useRouter();
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: addPost,
+    onSettled: async () => {
+      form.reset();
+      return await queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
 
   const inputFileRef = useRef<HTMLInputElement>(null);
 
@@ -54,12 +63,7 @@ const AddPostForm = ({ addPost }: Props) => {
   const noComment = !!!form.getValues('comment').length;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const userId = session?.user?.id;
-
-    await addPost({ values, userId }).then(() => {
-      form.reset();
-      router.refresh();
-    });
+    mutation.mutate({ values, userId: session?.user?.id });
   }
 
   const fileSelectOnClick = () => {
