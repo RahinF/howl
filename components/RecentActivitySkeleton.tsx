@@ -16,11 +16,8 @@ export default function RecentActivitySkeleton({ quantity }: Props) {
       </CardHeader>
       <CardContent className="mb-4 flex flex-col gap-8">
         {[...Array(quantity)].map((_, index) => (
-          <>
-            <div
-              key={index}
-              className="flex gap-1 items-center"
-            >
+          <div key={index}>
+            <div className="flex gap-1 items-center">
               <Skeleton className="h-8 w-8 mr-2 rounded-full" />
 
               <Skeleton className="h-3 w-12" />
@@ -30,7 +27,7 @@ export default function RecentActivitySkeleton({ quantity }: Props) {
               <Skeleton className="h-3 w-full" />
               <Skeleton className="h-3 w-1/2" />
             </div>
-          </>
+          </div>
         ))}
       </CardContent>
     </CardBase>
