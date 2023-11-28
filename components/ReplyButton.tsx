@@ -6,13 +6,14 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { CardProvider } from '@/context/CardContext';
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 interface Props {
   replyTo: Post;
+  setCommentCount: Dispatch<SetStateAction<number>>;
 }
 
-const ReplyButton = ({ replyTo }: Props) => {
+const ReplyButton = ({ replyTo, setCommentCount }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const closeDialog = () => {
@@ -51,6 +52,7 @@ const ReplyButton = ({ replyTo }: Props) => {
                 addComment={addComment}
                 closeDialog={closeDialog}
                 replyTo={replyTo}
+                setCommentCount={setCommentCount}
               />
             </motion.div>
           </AnimatePresence>

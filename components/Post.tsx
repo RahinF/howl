@@ -6,6 +6,7 @@ import CommentButton from '@/components/CommentButton';
 import Comments from '@/components/Comments';
 import LikeButton from '@/components/LikeButton';
 import ReplyButton from '@/components/ReplyButton';
+import Spinner from '@/components/Spinner';
 import {
   CardContent,
   CardDescription,
@@ -16,7 +17,7 @@ import {
 import { AnimatePresence } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import TimeAgo from 'react-timeago';
 
 interface Props {
@@ -29,7 +30,7 @@ export default function Post({ post }: Props) {
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
-  const hasComments = !!post.commentCount;
+  const [commentCount, setCommentCount] = useState<number>(post.commentCount);
 
   const toggleComments = () => {
     setShowComments((prev) => !prev);
@@ -82,8 +83,7 @@ export default function Post({ post }: Props) {
           <CommentButton
             showComments={showComments}
             toggleComments={toggleComments}
-            commentCount={post.commentCount}
-            isDisabled={!hasComments}
+            commentCount={commentCount}
           />
 
           {session && (
@@ -94,13 +94,22 @@ export default function Post({ post }: Props) {
           )}
         </div>
 
-        {session && <ReplyButton replyTo={post} />}
+        {session && (
+          <ReplyButton
+            replyTo={post}
+            setCommentCount={setCommentCount}
+          />
+        )}
       </CardFooter>
       <AnimatePresence
         initial={false}
         mode="wait"
       >
-        {showComments && <Comments postId={post._id} />}
+        {showComments && (
+          <Suspense fallback={<Spinner />}>
+            <Comments postId={post._id} />
+          </Suspense>
+        )}
       </AnimatePresence>
     </CardBase>
   );

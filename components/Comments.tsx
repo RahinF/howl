@@ -1,8 +1,7 @@
 import { getComments } from '@/api/comment';
 import CommentCard from '@/components/CommentCard';
-import CommentCardSkeleton from '@/components/CommentCardSkeleton';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { Variants, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 
 const variants: Variants = {
   initial: {
@@ -41,26 +40,14 @@ interface Props {
 }
 
 const Comments = ({ postId }: Props) => {
-  const [comments, setComments] = useState<PostComment[] | []>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const commentsLoaded = !loading && !!comments.length;
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const comments = await getComments(postId);
-        setComments(comments);
-      } catch (error) {
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [postId]);
+  const { data: comments } = useSuspenseQuery({
+    queryKey: ['comment', postId],
+    queryFn: () => getComments(postId),
+  });
 
   return (
     <motion.div
-      key={comments}
+      key={postId}
       variants={variants}
       initial="initial"
       animate="animate"
@@ -68,14 +55,12 @@ const Comments = ({ postId }: Props) => {
     >
       <div className="px-4 pb-4 max-h-80 hide-scrollbar h-auto overflow-y-scroll">
         <div className="divide-y divide-[#282D4A]">
-          {loading && <CommentCardSkeleton />}
-          {commentsLoaded &&
-            comments.map((comment) => (
-              <CommentCard
-                key={comment._id}
-                comment={comment}
-              />
-            ))}
+          {comments.map((comment) => (
+            <CommentCard
+              key={comment._id}
+              comment={comment}
+            />
+          ))}
         </div>
       </div>
     </motion.div>

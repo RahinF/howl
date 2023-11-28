@@ -20,7 +20,9 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import TimeAgo from 'react-timeago';
 import * as z from 'zod';
@@ -29,14 +31,35 @@ interface Props {
   addComment: AddComment;
   closeDialog: () => void;
   replyTo: Post;
+  setCommentCount: Dispatch<SetStateAction<number>>;
 }
 
 const formSchema = z.object({
   comment: z.string().min(1, { message: 'Comment is required.' }),
 });
 
-const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
+const ReplyForm = ({
+  addComment,
+  closeDialog,
+  replyTo,
+  setCommentCount,
+}: Props) => {
   const { data: session } = useSession();
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: addComment,
+    onSettled: async () => {
+      form.reset();
+      closeDialog();
+      setCommentCount((prev) => prev + 1);
+      return await queryClient.invalidateQueries({
+        queryKey: ['comment', replyTo._id],
+      });
+    },
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,10 +72,7 @@ const ReplyForm = ({ addComment, closeDialog, replyTo }: Props) => {
     const userId = session?.user?.id;
     const postId = replyTo._id;
 
-    await addComment({ comment, userId, postId }).then(() => {
-      form.reset();
-      closeDialog();
-    });
+    mutation.mutate({ comment, userId, postId });
   }
 
   const commentLength = !!!form.getValues('comment').length;

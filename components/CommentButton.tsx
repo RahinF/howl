@@ -7,17 +7,16 @@ interface Props {
   showComments: boolean;
   toggleComments: () => void;
   commentCount: number;
-  isDisabled: boolean;
 }
 
 const CommentButton = ({
   showComments,
   toggleComments,
   commentCount,
-  isDisabled,
 }: Props) => {
   const label = [showComments ? 'Hide' : 'Show', 'comments'].join(' ');
 
+  const isDisabled = commentCount <= 0;
   const commentCountText = commentCount > 99 ? '99' : commentCount;
 
   return (
