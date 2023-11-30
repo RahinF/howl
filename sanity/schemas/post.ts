@@ -25,6 +25,12 @@ export default defineType({
       type: 'reference',
       to: { type: 'category' },
     }),
+    defineField({
+      name: 'likes',
+      title: 'Likes',
+      type: 'array',
+      of: [{ type: 'reference', to: { type: 'author' } }],
+    }),
 
     defineField({
       name: 'body',

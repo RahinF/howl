@@ -4,6 +4,11 @@ interface Author {
   avatar: string;
 }
 
+interface Likes {
+  _id: string;
+  _key: string;
+}
+
 interface Post {
   _id: string;
   _createdAt: Date;
@@ -12,6 +17,7 @@ interface Post {
   liked?: string[];
   author: Author;
   commentCount: number;
+  likes: Likes[] | null;
 }
 
 interface PostComment {

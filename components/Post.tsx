@@ -14,10 +14,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { client } from '@/sanity/lib/client';
+import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { Suspense, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import TimeAgo from 'react-timeago';
 
 interface Props {
@@ -26,6 +28,24 @@ interface Props {
 
 export default function Post({ post }: Props) {
   const { data: session } = useSession();
+  const addLikeMutation = useMutation({
+    mutationFn: () =>
+      client
+        .patch(post._id)
+        .setIfMissing({ likes: [] })
+        .insert('after', 'likes[-1]', [
+          { _ref: session?.user?.id, _type: 'reference' },
+        ])
+        .commit({ autoGenerateArrayKeys: true }),
+  });
+
+  const removeLikeMutation = useMutation({
+    mutationFn: ({ key }: { key: string }) =>
+      client
+        .patch(post._id)
+        .unset([`likes[_key=="${key}"]`])
+        .commit({}),
+  });
 
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -36,9 +56,28 @@ export default function Post({ post }: Props) {
     setShowComments((prev) => !prev);
   };
 
+  const findUser = useCallback(() => {
+    if (!session?.user || post.likes === null) return;
+    const user = post.likes.find((user) => user._id === session.user?.id);
+    return user;
+  }, [post.likes, session]);
+
   const toggleLiked = () => {
+    if (!isLiked) {
+      addLikeMutation.mutate();
+    }
+
+    if (isLiked) {
+      const userLike = findUser();
+      userLike && removeLikeMutation.mutate({ key: userLike._key });
+    }
     setIsLiked((prev) => !prev);
   };
+
+  useEffect(() => {
+    const isLiked = findUser();
+    setIsLiked(!!isLiked);
+  }, [findUser]);
 
   return (
     <CardBase className="sm:p-4">

@@ -66,7 +66,11 @@ export const getPostsQuery = (category?: string) => {
     username,
     "avatar": avatar.asset->url
     },
-    "commentCount": count(*[ _type == "comment" && ^._id == post->_id])
+    "commentCount": count(*[ _type == "comment" && ^._id == post->_id]),
+    likes[]{
+      '_id': _ref,
+      _key
+      }
   }`;
   return getPostsQuery;
 };
