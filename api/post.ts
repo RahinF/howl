@@ -48,13 +48,23 @@ export const addPost = async ({ values, userId }: AddPostProps) => {
   });
 };
 
-export const getPostsQuery = (category?: string) => {
+export const getPostsQuery = ({
+  category,
+  pageParam,
+  postsPerPage,
+}: {
+  category?: string;
+  pageParam: number;
+  postsPerPage: number;
+}) => {
   const getPostsQuery = `
 *[_type == "post" ${
     category && category !== 'trending'
       ? `&& category->title == "${capitalizeFirstLetter(category)}"`
       : ''
-  }] | order(_createdAt desc) {
+  }] | order(_createdAt desc)[${(pageParam - 1) * (postsPerPage - 1)}..${
+    pageParam * (postsPerPage - 1)
+  }] {
   _id, 
   body, 
   _createdAt, 
@@ -64,6 +74,7 @@ export const getPostsQuery = (category?: string) => {
     username,
     "avatar": avatar.asset->url
     },
+    "postsAfter": count(*[_type == 'post'&& _id > ^._id ]),
     "commentCount": count(*[ _type == "comment" && ^._id == post->_id]),
     likes[]{
       '_id': _ref,
@@ -77,8 +88,16 @@ export const getPostsQuery = (category?: string) => {
   return getPostsQuery;
 };
 
-export const getPosts = async (category?: string): Promise<Post[]> =>
-  await client.fetch(getPostsQuery(category));
+export const getPosts = async ({
+  category,
+  pageParam,
+  postsPerPage,
+}: {
+  category?: string;
+  pageParam: number;
+  postsPerPage: number;
+}): Promise<Post[]> =>
+  await client.fetch(getPostsQuery({ category, pageParam, postsPerPage }));
 
 const getRecentActivityQuery = `
   *[_type == "post"] | order(_createdAt desc)[0..2] {

@@ -17,6 +17,7 @@ interface Post {
   liked?: string[];
   author: Author;
   commentCount: number;
+  postsAfter: number;
   likes: Likes[] | null;
 }
 
