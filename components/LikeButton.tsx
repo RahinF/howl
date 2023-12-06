@@ -72,7 +72,7 @@ const LikeButton = ({ isLiked, toggleLiked }: Props) => {
         className="disabled:opacity-100"
         onClick={onClick}
         data-testid="like-button"
-        aria-label={`${isLiked ? 'Unike' : 'Like'} post`}
+        aria-label={`${isLiked ? 'Unlike' : 'Like'} post`}
       >
         <AnimatePresence
           initial={false}

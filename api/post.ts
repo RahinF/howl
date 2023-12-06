@@ -49,13 +49,11 @@ export const addPost = async ({ values, userId }: AddPostProps) => {
 };
 
 export const getPostsQuery = (category?: string) => {
-  if (category === 'trending') {
-    category = '';
-  }
-
   const getPostsQuery = `
 *[_type == "post" ${
-    category ? `&& category->title == "${capitalizeFirstLetter(category)}"` : ''
+    category && category !== 'trending'
+      ? `&& category->title == "${capitalizeFirstLetter(category)}"`
+      : ''
   }] | order(_createdAt desc) {
   _id, 
   body, 
@@ -70,6 +68,10 @@ export const getPostsQuery = (category?: string) => {
     likes[]{
       '_id': _ref,
       _key
+      } ${
+        category === 'trending'
+          ? `| order(coalesce(count(likes), -1) desc)`
+          : ''
       }
   }`;
   return getPostsQuery;
