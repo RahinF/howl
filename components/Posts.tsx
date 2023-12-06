@@ -15,7 +15,7 @@ const postsPerPage = 5;
 
 export default function Posts({ category }: Props) {
   const { data, fetchNextPage, isFetchingNextPage } = useSuspenseInfiniteQuery({
-    queryKey: ['posts-test'],
+    queryKey: ['posts'],
     queryFn: ({ pageParam = 1 }) =>
       getPosts({ category, pageParam, postsPerPage }),
     initialPageParam: 1,
