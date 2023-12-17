@@ -20,14 +20,12 @@ import {
   PuzzlePieceIcon,
   TrophyIcon,
   UserGroupIcon,
-  UsersIcon,
 } from '@heroicons/react/24/outline';
 
 const links = {
   categories: [
     { icon: HomeIcon, href: '/', label: 'Home' },
     { icon: ArrowTrendingUpIcon, href: '/trending', label: 'Trending' },
-    { icon: UsersIcon, href: '/', label: 'Following' },
     { icon: MusicalNoteIcon, href: '/music', label: 'Music' },
     { icon: PuzzlePieceIcon, href: '/gaming', label: 'Gaming' },
     { icon: NewspaperIcon, href: '/news', label: 'News' },
