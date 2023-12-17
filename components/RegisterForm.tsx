@@ -2,12 +2,7 @@ import registerFormSchema from '@/app/constants/form/register';
 import CardBase from '@/components/CardBase';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import { Button } from '@/components/ui/button';
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -21,6 +16,8 @@ import { CardProvider } from '@/context/CardContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -90,16 +87,26 @@ export default function RegisterForm({ register }: Props) {
             className="max-w-md w-full"
           >
             <CardBase className="pt-10 pb-6">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Lorem, ipsum dolor.
-                </CardTitle>
-                <CardDescription
-                  className={serverError && 'text-destructive'}
-                  {...(serverError && { role: 'alert' })}
+              <CardHeader className="pb-0">
+                <Link
+                  className="grid place-items-center"
+                  href="/"
                 >
-                  {serverError ? serverError : 'Lorem ipsum dolor sit amet.'}
-                </CardDescription>
+                  <Image
+                    src="/logo-no-background.svg"
+                    alt="howl logo"
+                    width={200}
+                    height={60}
+                  />
+                </Link>
+                {serverError && (
+                  <CardDescription
+                    className="text-destructive pt-6 pb-2"
+                    role="alert"
+                  >
+                    {serverError}
+                  </CardDescription>
+                )}
               </CardHeader>
 
               <CardContent className="flex flex-col gap-4">
