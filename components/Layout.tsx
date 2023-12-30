@@ -7,6 +7,7 @@ import Posts from '@/components/Posts';
 import PostsSkeleton from '@/components/PostsSkeleton';
 import RecentActivity from '@/components/RecentActivity';
 import RecentActivitySkeleton from '@/components/RecentActivitySkeleton';
+import UserPanel from '@/components/UserPanel';
 import { CardProvider } from '@/context/CardContext';
 import { useSession } from 'next-auth/react';
 import { Suspense } from 'react';
@@ -31,7 +32,8 @@ export default function Layout({ category }: Props) {
           </div>
         </div>
 
-        <div className="col-span-3 pt-4 hidden lg:block">
+        <div className="col-span-3 pt-4 hidden lg:flex flex-col gap-4">
+          {session && <UserPanel />}
           <Suspense fallback={<RecentActivitySkeleton quantity={3} />}>
             <RecentActivity />
           </Suspense>
