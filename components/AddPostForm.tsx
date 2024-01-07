@@ -1,6 +1,5 @@
 'use client';
 
-import { AddPost } from '@/api/post';
 import CardBase from '@/components/CardBase';
 import { ComboboxForm } from '@/components/ComboboxForm';
 import IconButton from '@/components/IconButton';
@@ -13,6 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { AddPost } from '@/requests/post';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { zodResolver } from '@hookform/resolvers/zod';

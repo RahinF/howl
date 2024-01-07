@@ -1,6 +1,5 @@
 'use client';
 
-import { fetchCategories } from '@/api/categories';
 import { FormSchema } from '@/components/AddPostForm';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +21,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { fetchCategories } from '@/requests/categories';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';

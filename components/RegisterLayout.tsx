@@ -1,7 +1,7 @@
 'use client';
 
-import { register } from '@/api/auth';
 import RegisterForm from '@/components/RegisterForm';
+import { register } from '@/requests/auth';
 
 export default function RegisterLayout() {
   return (

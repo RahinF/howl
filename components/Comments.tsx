@@ -1,5 +1,5 @@
-import { getComments } from '@/api/comment';
 import CommentCard from '@/components/CommentCard';
+import { getComments } from '@/requests/comment';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { Variants, motion } from 'framer-motion';
 

@@ -82,7 +82,7 @@ function SettingsButton() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
             >
-              <UserPanelForm closeDialog={closeDialog}/>
+              <UserPanelForm closeDialog={closeDialog} />
             </motion.div>
           </AnimatePresence>
         </CardProvider>

@@ -1,4 +1,3 @@
-import { AddComment } from '@/api/comment';
 import Avatar from '@/components/Avatar';
 import CardBase from '@/components/CardBase';
 import CardBaseContainer from '@/components/CardBaseContainer';
@@ -18,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { AddComment } from '@/requests/comment';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

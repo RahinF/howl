@@ -1,9 +1,9 @@
 'use client';
 
-import { getRecentActivity } from '@/api/post';
 import CardBase from '@/components/CardBase';
 import RecentActivityCard from '@/components/RecentActivityCard';
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getRecentActivity } from '@/requests/post';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 const RecentActivity = () => {

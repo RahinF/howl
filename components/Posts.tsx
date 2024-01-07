@@ -1,9 +1,9 @@
 'use client';
 
-import { getPosts } from '@/api/post';
 import Post from '@/components/Post';
 import Spinner from '@/components/Spinner';
 import useOnScreen from '@/hooks/useOnScreen';
+import { getPosts } from '@/requests/post';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 

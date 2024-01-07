@@ -1,6 +1,5 @@
 'use client';
 
-import { addPost } from '@/api/post';
 import AddPostForm from '@/components/AddPostForm';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import Posts from '@/components/Posts';
@@ -9,6 +8,7 @@ import RecentActivity from '@/components/RecentActivity';
 import RecentActivitySkeleton from '@/components/RecentActivitySkeleton';
 import UserPanel from '@/components/UserPanel';
 import { CardProvider } from '@/context/CardContext';
+import { addPost } from '@/requests/post';
 import { useSession } from 'next-auth/react';
 import { Suspense } from 'react';
 

@@ -58,15 +58,14 @@ export default function UserPanelForm({ closeDialog }: Props) {
               />
             </IconButton>
             <CardHeader className="flex-col gap-4 items-center pb-2 space-y-0">
-                <div className='relative'>
-
-              <Avatar
-                username={user.name!}
-                src={user.image!}
-                className="w-32 h-32"
+              <div className="relative">
+                <Avatar
+                  username={user.name!}
+                  src={user.image!}
+                  className="w-32 h-32"
                 />
-                <div className='bg-white h-8 w-8 rounded-full absolute bottom-2 -right-2'/>
-                </div>
+                <div className="bg-white h-8 w-8 rounded-full absolute bottom-2 -right-2" />
+              </div>
             </CardHeader>
 
             <CardContent className="flex flex-col gap-8">
