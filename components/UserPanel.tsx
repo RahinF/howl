@@ -2,9 +2,14 @@ import Avatar from '@/components/Avatar';
 import CardBase from '@/components/CardBase';
 import IconButton from '@/components/IconButton';
 import Tooltip from '@/components/Tooltip';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { CardProvider } from '@/context/CardContext';
 import { Cog8ToothIcon } from '@heroicons/react/24/outline';
+import { AnimatePresence, motion } from 'framer-motion';
 import { DefaultUser } from 'next-auth';
 import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import UserPanelForm from '@/components/UserPanelForm';
 
 export default function UserPanel() {
   const { data: session } = useSession();
@@ -42,18 +47,46 @@ function UserDetail({ user }: { user: DefaultUser }) {
 }
 
 function SettingsButton() {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const closeDialog = () => {
+    setOpen(false);
+  };
+
   return (
-    <Tooltip
-      label="Settings"
-      side="bottom"
+    <Dialog
+      open={open}
+      // onOpenChange={setOpen}
     >
-      <IconButton>
-        <Cog8ToothIcon
-          className="h-6 w-6 text-white"
-          aria-hidden
-          focusable="false"
-        />
-      </IconButton>
-    </Tooltip>
+      <Tooltip
+        label="Settings"
+        side="bottom"
+      >
+        <IconButton aria-label="settings button">
+          <DialogTrigger asChild>
+            <Cog8ToothIcon
+              className="h-6 w-6 text-white"
+              aria-hidden
+              focusable="false"
+            />
+          </DialogTrigger>
+        </IconButton>
+      </Tooltip>
+
+      <DialogContent>
+        <CardProvider>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={open.toString()}
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+            >
+              <UserPanelForm closeDialog={closeDialog}/>
+            </motion.div>
+          </AnimatePresence>
+        </CardProvider>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -2,12 +2,12 @@ import users from '@/app/constants/users';
 
 const posts: Post[] = [
   {
-    id: '1',
-    date: new Date('December 17, 2022 09:24:00'),
-    content:
+    _id: '1',
+    _createdAt: new Date('December 17, 2022 09:24:00'),
+    body:
       'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non vitae velit nostrum architecto rerum iste voluptates sit quis perspiciatis tenetur.',
     liked: ['1', '2', '3'],
-    user: users[0],
+    author: users[0],
   },
   {
     id: '2',

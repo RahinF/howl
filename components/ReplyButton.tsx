@@ -27,7 +27,7 @@ const ReplyButton = ({ replyTo, setCommentCount }: Props) => {
       <Tooltip label="Reply">
         <IconButton
           data-testid="reply-button"
-          aria-label="reply-button"
+          aria-label="reply button"
         >
           <DialogTrigger asChild>
             <ArrowUturnLeftIcon
