@@ -16,7 +16,7 @@ export default function UserPanel() {
 
   return (
     <CardBase>
-      <div className="p-6 text-white flex justify-between items-center">
+      <div className="p-6 flex justify-between items-center">
         <UserDetail user={session?.user!} />
         <SettingsButton />
       </div>
