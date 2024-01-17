@@ -5,6 +5,7 @@ import CardBase from '@/components/CardBase';
 import CommentButton from '@/components/CommentButton';
 import Comments from '@/components/Comments';
 import LikeButton from '@/components/LikeButton';
+import OptionsButton from '@/components/OptionsButton';
 import ReplyButton from '@/components/ReplyButton';
 import Spinner from '@/components/Spinner';
 import {
@@ -131,6 +132,7 @@ export default function Post({ post }: Props) {
               toggleLiked={toggleLiked}
             />
           )}
+          {session && session.user?.id === post.author._id && <OptionsButton />}
         </div>
 
         {session && (
