@@ -152,6 +152,8 @@ function EditDialog({ open, onOpenChange, post }: EditDialog) {
 }
 
 function DeleteDialog({ open, onOpenChange, post }: EditDialog) {
+
+  const closeDialog = () => onOpenChange(false);
   return (
     <Dialog
       open={open}
@@ -163,7 +165,7 @@ function DeleteDialog({ open, onOpenChange, post }: EditDialog) {
             <CardBase className="pt-10 pb-6">
               <IconButton
                 className="absolute right-5 top-5"
-                onClick={() => onOpenChange(false)}
+                onClick={closeDialog}
                 aria-label="close"
               >
                 <XMarkIcon
@@ -179,12 +181,24 @@ function DeleteDialog({ open, onOpenChange, post }: EditDialog) {
                 <p className="text-white">
                   This will delete this post permanently. Are you sure?
                 </p>
-                <Button
-                  type="button"
-                  className="bg-rose-500 hover:bg-red-800 duration-500 self-center w-24"
-                >
-                  Delete
-                </Button>
+
+                <div className="flex gap-4 self-end">
+                  <Button
+                    type="button"
+                    className="bg-rose-500 hover:bg-red-800 duration-500 w-24"
+                    aria-label="confirm delete post"
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    type="button"
+                    className="bg-[#282D4A] duration-500 w-24"
+                    onClick={closeDialog}
+                    aria-label="close"
+                  >
+                    Cancel
+                  </Button>
+                </div>
               </CardContent>
             </CardBase>
           </CardBaseContainer>

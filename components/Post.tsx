@@ -127,21 +127,22 @@ export default function Post({ post }: Props) {
           />
 
           {session && (
-            <LikeButton
-              isLiked={isLiked}
-              toggleLiked={toggleLiked}
-            />
-          )}
-          {session && session.user?.id === post.author._id && (
-            <OptionsButton post={post} />
+            <>
+              <LikeButton
+                isLiked={isLiked}
+                toggleLiked={toggleLiked}
+              />
+
+              <ReplyButton
+                replyTo={post}
+                setCommentCount={setCommentCount}
+              />
+            </>
           )}
         </div>
 
-        {session && (
-          <ReplyButton
-            replyTo={post}
-            setCommentCount={setCommentCount}
-          />
+        {session && session.user?.id === post.author._id && (
+          <OptionsButton post={post} />
         )}
       </CardFooter>
       <AnimatePresence
