@@ -33,6 +33,7 @@ export default function PostsSkeleton({ quantity }: Props) {
             <div className="flex gap-4">
               <Skeleton className="h-12 w-12 rounded-full" />
               <Skeleton className="h-12 w-12 rounded-full" />
+              <Skeleton className="h-12 w-12 rounded-full" />
             </div>
             <Skeleton className="h-12 w-12 rounded-full" />
           </CardFooter>
