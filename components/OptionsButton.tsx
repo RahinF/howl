@@ -11,17 +11,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { CardProvider } from '@/context/CardContext';
-import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
+import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { Button } from './ui/button';
+import { CardContent, CardHeader, CardTitle } from './ui/card';
 
 interface Dialog {
   open: boolean;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function OptionsButton() {
+interface Props {
+  post: Post;
+}
+
+export default function OptionsButton({ post }: Props) {
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
 
@@ -67,33 +74,27 @@ export default function OptionsButton() {
       {/* add multpe dialog  */}
       {/* fix dialog border color */}
       {/* add edit, delete function */}
-      <Dialog
-        open={openEditDialog}
-        onOpenChange={setOpenEditDialog}
-      >
-        <DialogContent>
-          <CardProvider>
-            <CardBaseContainer>
-              <CardBase className="pt-10 pb-6">edit post dialog</CardBase>
-            </CardBaseContainer>
-          </CardProvider>
-        </DialogContent>
-      </Dialog>
 
       <EditDialog
         open={openEditDialog}
         onOpenChange={setOpenEditDialog}
+        post={post}
       />
 
       <DeleteDialog
         open={openDeleteDialog}
         onOpenChange={setOpenDeleteDialog}
+        post={post}
       />
     </DropdownMenu>
   );
 }
 
-function EditDialog({ open, onOpenChange }: Dialog) {
+interface EditDialog extends Dialog {
+  post: Post;
+}
+
+function EditDialog({ open, onOpenChange, post }: EditDialog) {
   return (
     <Dialog
       open={open}
@@ -109,7 +110,38 @@ function EditDialog({ open, onOpenChange }: Dialog) {
               exit={{ y: '100%' }}
             >
               <CardBaseContainer>
-                <CardBase className="pt-10 pb-6">edit post dialog</CardBase>
+                <CardBase className="pt-10 pb-6">
+                  <IconButton
+                    className="absolute right-5 top-5"
+                    onClick={() => onOpenChange(false)}
+                    aria-label="close"
+                  >
+                    <XMarkIcon
+                      className="h-6 w-6 text-white"
+                      aria-hidden
+                      focusable="false"
+                    />
+                  </IconButton>
+                  <CardHeader>
+                    <CardTitle className="text-white">Edit Post</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {post.mainImage && (
+                      <div className="rounded-lg">
+                        <Image
+                          src={post.mainImage}
+                          alt={`${post._id}'s image`}
+                          width={644}
+                          height={483}
+                          className="rounded-[inherit]"
+                        />
+                      </div>
+                    )}
+                    <p className="leading-7 [&:not(:first-child)]:mt-6 text-white">
+                      {post.body}
+                    </p>
+                  </CardContent>
+                </CardBase>
               </CardBaseContainer>
             </motion.div>
           </AnimatePresence>
@@ -119,7 +151,7 @@ function EditDialog({ open, onOpenChange }: Dialog) {
   );
 }
 
-function DeleteDialog({ open, onOpenChange }: Dialog) {
+function DeleteDialog({ open, onOpenChange, post }: EditDialog) {
   return (
     <Dialog
       open={open}
@@ -128,7 +160,33 @@ function DeleteDialog({ open, onOpenChange }: Dialog) {
       <DialogContent>
         <CardProvider>
           <CardBaseContainer>
-            <CardBase className="pt-10 pb-6">delte post dialog</CardBase>
+            <CardBase className="pt-10 pb-6">
+              <IconButton
+                className="absolute right-5 top-5"
+                onClick={() => onOpenChange(false)}
+                aria-label="close"
+              >
+                <XMarkIcon
+                  className="h-6 w-6 text-white"
+                  aria-hidden
+                  focusable="false"
+                />
+              </IconButton>
+              <CardHeader>
+                <CardTitle className="text-white">Delete Post</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-8">
+                <p className="text-white">
+                  This will delete this post permanently. Are you sure?
+                </p>
+                <Button
+                  type="button"
+                  className="bg-rose-500 hover:bg-red-800 duration-500 self-center w-24"
+                >
+                  Delete
+                </Button>
+              </CardContent>
+            </CardBase>
           </CardBaseContainer>
         </CardProvider>
       </DialogContent>

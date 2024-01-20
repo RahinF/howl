@@ -107,7 +107,7 @@ export default function Post({ post }: Props) {
           <div className="rounded-lg">
             <Image
               src={post.mainImage}
-              alt="turtle"
+              alt={`${post._id}'s image`}
               width={644}
               height={483}
               className="rounded-[inherit]"
@@ -132,7 +132,9 @@ export default function Post({ post }: Props) {
               toggleLiked={toggleLiked}
             />
           )}
-          {session && session.user?.id === post.author._id && <OptionsButton />}
+          {session && session.user?.id === post.author._id && (
+            <OptionsButton post={post} />
+          )}
         </div>
 
         {session && (
