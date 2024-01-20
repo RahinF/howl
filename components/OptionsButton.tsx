@@ -152,7 +152,6 @@ function EditDialog({ open, onOpenChange, post }: EditDialog) {
 }
 
 function DeleteDialog({ open, onOpenChange, post }: EditDialog) {
-
   const closeDialog = () => onOpenChange(false);
   return (
     <Dialog
