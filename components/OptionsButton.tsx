@@ -2,6 +2,8 @@ import CardBase from '@/components/CardBase';
 import CardBaseContainer from '@/components/CardBaseContainer';
 import IconButton from '@/components/IconButton';
 import Tooltip from '@/components/Tooltip';
+import { Button } from '@/components/ui/button';
+import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import {
   DropdownMenu,
@@ -10,14 +12,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
 import { CardProvider } from '@/context/CardContext';
 import { EllipsisVerticalIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Button } from './ui/button';
-import { CardContent, CardHeader, CardTitle } from './ui/card';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 interface Dialog {
   open: boolean;
@@ -75,13 +86,13 @@ export default function OptionsButton({ post }: Props) {
       {/* fix dialog border color */}
       {/* add edit, delete function */}
 
-      <EditDialog
+      <EditPostDialog
         open={openEditDialog}
         onOpenChange={setOpenEditDialog}
         post={post}
       />
 
-      <DeleteDialog
+      <DeletePostDialog
         open={openDeleteDialog}
         onOpenChange={setOpenDeleteDialog}
         post={post}
@@ -94,7 +105,25 @@ interface EditDialog extends Dialog {
   post: Post;
 }
 
-function EditDialog({ open, onOpenChange, post }: EditDialog) {
+const formSchema = z.object({
+  comment: z.string().min(1, { message: 'Comment is required.' }),
+});
+
+function EditPostDialog({ open, onOpenChange, post }: EditDialog) {
+  const closeDialog = () => onOpenChange(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      comment: post.body,
+    },
+    mode: 'all',
+  });
+  async function onSubmit(values: z.infer<typeof formSchema>) {}
+
+  const noCommentLength = !!!form.getValues('comment').length;
+  const sameText = post.body?.trim() === form.getValues('comment').trim();
+
   return (
     <Dialog
       open={open}
@@ -110,38 +139,75 @@ function EditDialog({ open, onOpenChange, post }: EditDialog) {
               exit={{ y: '100%' }}
             >
               <CardBaseContainer>
-                <CardBase className="pt-10 pb-6">
-                  <IconButton
-                    className="absolute right-5 top-5"
-                    onClick={() => onOpenChange(false)}
-                    aria-label="close"
-                  >
-                    <XMarkIcon
-                      className="h-6 w-6 text-white"
-                      aria-hidden
-                      focusable="false"
-                    />
-                  </IconButton>
-                  <CardHeader>
-                    <CardTitle className="text-white">Edit Post</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {post.mainImage && (
-                      <div className="rounded-lg">
-                        <Image
-                          src={post.mainImage}
-                          alt={`${post._id}'s image`}
-                          width={644}
-                          height={483}
-                          className="rounded-[inherit]"
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <CardBase className="pt-10 pb-6">
+                      <IconButton
+                        className="absolute right-5 top-5"
+                        onClick={() => onOpenChange(false)}
+                        aria-label="close"
+                      >
+                        <XMarkIcon
+                          className="h-6 w-6 text-white"
+                          aria-hidden
+                          focusable="false"
                         />
-                      </div>
-                    )}
-                    <p className="leading-7 [&:not(:first-child)]:mt-6 text-white">
-                      {post.body}
-                    </p>
-                  </CardContent>
-                </CardBase>
+                      </IconButton>
+                      <CardHeader>
+                        <CardTitle className="text-white">Edit Post</CardTitle>
+                      </CardHeader>
+                      <CardContent className="flex flex-col gap-8">
+                        {post.mainImage && (
+                          <div className="rounded-lg">
+                            <Image
+                              src={post.mainImage}
+                              alt={`${post._id}'s image`}
+                              width={644}
+                              height={483}
+                              className="rounded-[inherit]"
+                            />
+                          </div>
+                        )}
+                        <FormField
+                          control={form.control}
+                          name="comment"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="Post your comment"
+                                  className="border-none bg-[#282D4A] text-white resize-none"
+                                  {...field}
+                                />
+                              </FormControl>
+
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <div className="flex gap-4 self-end">
+                          <Button
+                            type="button"
+                            className="bg-[#282D4A] duration-500 w-24"
+                            aria-label="update post"
+                            disabled={sameText || noCommentLength}
+                          >
+                            Update
+                          </Button>
+                          <Button
+                            type="button"
+                            className="bg-[#282D4A] duration-500 w-24"
+                            onClick={closeDialog}
+                            aria-label="close"
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </CardBase>
+                  </form>
+                </Form>
               </CardBaseContainer>
             </motion.div>
           </AnimatePresence>
@@ -151,7 +217,7 @@ function EditDialog({ open, onOpenChange, post }: EditDialog) {
   );
 }
 
-function DeleteDialog({ open, onOpenChange, post }: EditDialog) {
+function DeletePostDialog({ open, onOpenChange, post }: EditDialog) {
   const closeDialog = () => onOpenChange(false);
   return (
     <Dialog
