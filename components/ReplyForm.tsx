@@ -75,7 +75,7 @@ const ReplyForm = ({
     mutation.mutate({ comment, userId, postId });
   }
 
-  const commentLength = !!!form.getValues('comment').length;
+  const noCommentLength = !!!form.getValues('comment').length;
 
   return (
     <CardBaseContainer>
@@ -141,7 +141,7 @@ const ReplyForm = ({
                 <Button
                   type="submit"
                   className="bg-[#282D4A] duration-500 self-end w-24"
-                  disabled={commentLength}
+                  disabled={noCommentLength}
                 >
                   Reply
                 </Button>
